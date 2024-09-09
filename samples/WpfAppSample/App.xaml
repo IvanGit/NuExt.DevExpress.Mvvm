@@ -1,0 +1,16 @@
+﻿<Application x:Class="WpfAppSample.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:WpfAppSample"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             Startup="Application_Startup" Exit="Application_Exit" SessionEnding="Application_SessionEnding">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Themes/Generic.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <dxmvvm:MessageBoxService x:Key="AppMessageBoxService" x:Name="AppMessageBoxService" />
+            <dxmvvm:OpenWindowsService x:Key="AppOpenWindowsService" x:Name="AppOpenWindowsService"/>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
