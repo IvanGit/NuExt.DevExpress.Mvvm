@@ -1,19 +1,23 @@
 ﻿namespace DevExpress.Mvvm
 {
+    /// <summary>
+    /// Provides access to various directories related to the application's environment, 
+    /// such as the base directory, configuration directory, and settings directory.
+    /// </summary>
     public interface IEnvironmentService
     {
         /// <summary>
-        /// Base application directory
+        /// Gets the base application directory.
         /// </summary>
         string BaseDirectory { get; }
 
         /// <summary>
-        /// Application configuration directory
+        /// Gets the application configuration directory.
         /// </summary>
         string ConfigDirectory { get; }
 
         /// <summary>
-        /// Application settings directory
+        /// Gets the application settings directory.
         /// </summary>
         string SettingsDirectory { get; }
     }

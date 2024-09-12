@@ -36,7 +36,7 @@ namespace DevExpress.Mvvm
         /// <summary>
         /// Gets or sets the prefix used for settings files.
         /// </summary>
-        public string Prefix
+        public string? Prefix
         {
             get => (string)GetValue(PrefixProperty);
             set => SetValue(PrefixProperty, value);
@@ -54,6 +54,15 @@ namespace DevExpress.Mvvm
         #endregion
 
         #region Methods
+
+        protected override void OnAttached()
+        {
+            base.OnAttached();
+            if (string.IsNullOrWhiteSpace(Prefix))
+            {
+                Prefix = AssociatedObject.GetType().Name;
+            }
+        }
 
         /// <summary>
         /// Constructs the filename for the settings file based on the given name and the current prefix.
@@ -74,7 +83,7 @@ namespace DevExpress.Mvvm
 #if NET8_0_OR_GREATER
                 if (!Prefix.EndsWith('.'))
 #else
-                if (!Prefix.EndsWith("."))
+                if (!Prefix!.EndsWith("."))
 #endif
                 {
                     sb.Append('.');

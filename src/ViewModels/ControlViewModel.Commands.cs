@@ -270,7 +270,7 @@ namespace DevExpress.Mvvm
         /// <returns>The registered synchronous command.</returns>
         /// <exception cref="ArgumentNullException">Thrown if <paramref name="executeMethod"/> is null.</exception>
         /// <exception cref="ObjectDisposedException">Thrown if the ViewModel has been disposed.</exception>
-        public ICommand RegisterCommand<T>(Action<T> executeMethod, Func<T, bool>? canExecuteMethod, bool? useCommandManager = null)
+        public ICommand RegisterCommand<T>(Action<T> executeMethod, Func<T, bool>? canExecuteMethod = null, bool? useCommandManager = null)
         {
 #if NET6_0_OR_GREATER
             ArgumentNullException.ThrowIfNull(executeMethod);

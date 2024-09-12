@@ -3,8 +3,18 @@ using System.Reflection;
 
 namespace DevExpress.Mvvm
 {
+    /// <summary>
+    /// Provides a base implementation for environment-related services, initializing 
+    /// various directories such as the base directory, configuration directory, application data directory, 
+    /// working directory, and settings directory.
+    /// </summary>
     public abstract class EnvironmentServiceBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EnvironmentServiceBase"/> class with the specified base directory and arguments.
+        /// </summary>
+        /// <param name="baseDirectory">The base directory of the application.</param>
+        /// <param name="args">An array of arguments passed to the application.</param>
         protected EnvironmentServiceBase(string baseDirectory, string[] args)
         {
             BaseDirectory = baseDirectory;
@@ -22,16 +32,34 @@ namespace DevExpress.Mvvm
 
         #region Properties
 
+        /// <summary>
+        /// Gets the application data directory.
+        /// </summary>
         public string AppDataDirectory { get; }
 
+        /// <summary>
+        /// Gets the arguments passed to the application.
+        /// </summary>
         public string[] Args { get; }
 
+        /// <summary>
+        /// Gets the application configuration directory.
+        /// </summary>
         public string ConfigDirectory { get; }
 
+        /// <summary>
+        /// Gets the base application directory.
+        /// </summary>
         public string BaseDirectory { get; }
 
+        /// <summary>
+        /// Gets the application settings directory.
+        /// </summary>
         public string SettingsDirectory { get; }
 
+        /// <summary>
+        /// Gets the working directory of the application, typically version-specific.
+        /// </summary>
         public string WorkingDirectory { get; }
 
         #endregion

@@ -28,8 +28,6 @@ namespace WpfAppSample
 
         public App()
         {
-            DispatcherUnhandledException += Application_DispatcherUnhandledException;
-
             _ewh = new EventWaitHandle(false, EventResetMode.AutoReset, $"{GetType().FullName}", out _createdNew);
             _lifetime.AddDisposable(_ewh);
             _lifetime.Add(_cts.Cancel);
@@ -52,16 +50,12 @@ namespace WpfAppSample
             e.Handled = true;
         }
 
-        private async void Application_SessionEnding(object sender, SessionEndingCancelEventArgs e)
+        private async void Application_Exit(object sender, ExitEventArgs e)
         {
-            if (e.ReasonSessionEnding != ReasonSessionEnding.Shutdown)
-            {
-                return;
-            }
+            _lifetime.Dispose();
+
             var logger = ServiceContainer.Default.GetService<ILogger>();
-            Debug.Assert(logger != null);
             var windowsService = ServiceContainer.Default.GetService<IOpenWindowsService>();
-            Debug.Assert(windowsService != null);
             try
             {
                 if (windowsService != null)
@@ -71,7 +65,29 @@ namespace WpfAppSample
             }
             catch (Exception ex)
             {
-                
+                Debug.Assert(false, ex.Message);
+                logger?.LogError(ex, "IOpenWindowsService disposing Exception: {Exception}.", ex.Message);
+            }
+
+            logger?.LogInformation("Application exited with code {ExitCode}.", e.ApplicationExitCode);
+            LogManager.Shutdown();
+        }
+
+        private async void Application_SessionEnding(object sender, SessionEndingCancelEventArgs e)
+        {
+            if (e.ReasonSessionEnding != ReasonSessionEnding.Shutdown)
+            {
+                return;
+            }
+            var logger = ServiceContainer.Default.GetService<ILogger>();
+            Debug.Assert(logger != null);
+            var windowsService = ServiceContainer.Default.GetService<IOpenWindowsService>();
+            try
+            {
+                await windowsService.DisposeAsync();
+            }
+            catch (Exception ex)
+            {
                 logger?.LogError(ex, "Application SessionEnding Exception: {Exception}.", ex.Message);
             }
         }
@@ -115,6 +131,7 @@ namespace WpfAppSample
             }
             catch (Exception ex)
             {
+                Debug.Assert(false, ex.Message);
                 logger?.LogError(ex, "Error while initialization");
                 await viewModel.DisposeAsync();
                 Shutdown();
@@ -123,29 +140,6 @@ namespace WpfAppSample
 
             _ = Task.Run(() => WaitForNotifyAsync(_cts.Token), _cts.Token);
             _ = Task.Run(() => PerformanceMonitor.RunAsync(_cts.Token), _cts.Token);
-        }
-
-        private async void Application_Exit(object sender, ExitEventArgs e)
-        {
-            _lifetime.Dispose();
-
-            var logger = ServiceContainer.Default.GetService<ILogger>();
-            var windowsService = ServiceContainer.Default.GetService<IOpenWindowsService>();
-            try
-            {
-                if (windowsService != null)
-                {
-                    await windowsService.DisposeAsync();
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.Assert(false, ex.Message);
-                logger?.LogError(ex, "IOpenWindowsService disposing Exception: {Exception}.", ex.Message);
-            }
-
-            logger?.LogInformation("Application exited with code {ExitCode}.", e.ApplicationExitCode);
-            LogManager.Shutdown();
         }
 
         #endregion

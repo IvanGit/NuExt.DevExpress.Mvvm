@@ -1,9 +1,9 @@
 ﻿using DevExpress.Mvvm;
-using DevExpress.Mvvm.POCO;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text;
+using System.Windows.Input;
 using WpfAppSample.Models;
 using WpfAppSample.Services;
 
@@ -27,6 +27,16 @@ namespace WpfAppSample.ViewModels
         }
 
         public ObservableCollection<ITabViewModel> Tabs { get; } = new();
+
+        #endregion
+
+        #region Commands
+
+        public ICommand ForceCloseCommand
+        {
+            get { return GetProperty(() => ForceCloseCommand); }
+            set { SetProperty(() => ForceCloseCommand, value); }
+        }
 
         #endregion
 
@@ -91,6 +101,11 @@ namespace WpfAppSample.ViewModels
             UpdateTitle();
 
             CreateSettings();
+
+            ForceCloseCommand = RegisterCommand(async () =>
+            {
+                await OpenWindowsService!.DisposeAsync();
+            });
         }
 
         protected override async ValueTask OnInitializeAsync(CancellationToken cancellationToken)

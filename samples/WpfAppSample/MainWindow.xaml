@@ -42,7 +42,10 @@
 
         <StatusBar Grid.Row="1">
             <StatusBarItem>
-                <TextBlock Text="{Binding Source={x:Static Application.Current}, Path=PerformanceMonitor.FormattedUsage, FallbackValue={x:Null}}" />
+                <Button Content="Close" Command="{Binding ForceCloseCommand}"/>
+            </StatusBarItem>
+            <StatusBarItem>
+                <TextBlock Text="{Binding Source={StaticResource AppBindingProxy}, Path=DataContext.PerformanceMonitor.FormattedUsage, FallbackValue={x:Null}}" />
             </StatusBarItem>
         </StatusBar>
     </Grid>

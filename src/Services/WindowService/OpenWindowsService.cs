@@ -4,14 +4,19 @@ using System.Diagnostics;
 namespace DevExpress.Mvvm
 {
     /// <summary>
-    /// Provides services for managing open windows within the application.
+    /// Provides services for managing open window view models within the application.
     /// This service maintains a list of currently open window view models and offers functionality to register,
     /// unregister, and force-close all registered windows asynchronously. It ensures thread safety using an asynchronous lock.
     /// </summary>
     public sealed class OpenWindowsService : ServiceBase, IOpenWindowsService
     {
-        private readonly List<IWindowViewModel> _windows = new();
+        private readonly List<IWindowViewModel> _viewModels = new();
         private readonly AsyncLock _lock = new();
+
+        /// <summary>
+        /// Gets open window view models.
+        /// </summary>
+        IEnumerable<IWindowViewModel> IOpenWindowsService.ViewModels => _viewModels;
 
         /// <summary>
         /// Asynchronously disposes the service, force-closing all registered windows.
@@ -27,11 +32,11 @@ namespace DevExpress.Mvvm
             try
             {
                 List<Exception>? exceptions = null;
-                for (int i = _windows.Count - 1; i >= 0; i--)
+                for (int i = _viewModels.Count - 1; i >= 0; i--)
                 {
                     try
                     {
-                        await _windows[i].CloseForcedAsync();
+                        await _viewModels[i].CloseForcedAsync();
                     }
                     catch (Exception ex)
                     {
@@ -43,8 +48,8 @@ namespace DevExpress.Mvvm
                 {
                     throw new AggregateException(exceptions);
                 }
-                Debug.Assert(_windows.Count == 0);
-                _windows.Clear();
+                //Debug.Assert(_viewModels.Count == 0);
+                _viewModels.Clear();
             }
             finally
             {
@@ -62,7 +67,7 @@ namespace DevExpress.Mvvm
             _lock.Enter();
             try
             {
-                _windows.Add(viewModel);
+                _viewModels.Add(viewModel);
             }
             finally
             {
@@ -76,10 +81,14 @@ namespace DevExpress.Mvvm
         /// <param name="viewModel">The window view model to unregister.</param>
         public void Unregister(IWindowViewModel viewModel)
         {
+            if (_lock.IsEntered)//is disposing
+            {
+                return;
+            }
             _lock.Enter();
             try
             {
-                bool flag = _windows.Remove(viewModel);
+                bool flag = _viewModels.Remove(viewModel);
                 Debug.Assert(flag);
             }
             finally
