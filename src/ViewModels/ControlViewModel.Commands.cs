@@ -59,8 +59,6 @@ namespace DevExpress.Mvvm
             Debug.WriteLine($"{GetType().FullName} ({DisplayName ?? "Unnamed"}) ({GetHashCode()})::OnLoaded");
 #endif
             Debug.Assert(DispatcherService != null, $"{nameof(DispatcherService)} is null");
-            Debug.Assert(MessageBoxService != null, $"{nameof(MessageBoxService)} is null");
-            //Debug.Assert(SettingsService != null, $"{nameof(SettingsService)} is null");
         }
 
         /// <summary>
@@ -77,6 +75,15 @@ namespace DevExpress.Mvvm
         #endregion
 
         #region Methods
+
+        /// <summary>
+        /// Intended for creating and registering commands as needed.
+        /// </summary>
+        protected virtual void CreateCommands()
+        {
+            LoadedCommand = RegisterCommand(OnLoaded);
+            UnloadedCommand = RegisterCommand(OnUnloaded);
+        }
 
         /// <summary>
         /// Retrieves all commands defined in the ViewModel.
@@ -96,7 +103,8 @@ namespace DevExpress.Mvvm
         /// </summary>
         /// <param name="callerName">The name of the calling method (automatically provided).</param>
         /// <returns>The <see cref="IAsyncCommand"/> associated with the calling method's name, if found; otherwise, null.</returns>
-        protected internal IAsyncCommand? GetAsyncCommand([CallerMemberName] string? callerName = null)
+        /// <exception cref="ArgumentException">Thrown when <paramref name="callerName"/> is null or empty.</exception>
+        protected IAsyncCommand? GetAsyncCommand([CallerMemberName] string? callerName = null)
         {
             Debug.Assert(!string.IsNullOrEmpty(callerName), $"{nameof(callerName)} is null or empty");
 #if NET8_0_OR_GREATER
@@ -114,6 +122,19 @@ namespace DevExpress.Mvvm
         }
 
         /// <summary>
+        /// Gets the cancellation token for the currently executing asynchronous command associated with the calling method's name.
+        /// </summary>
+        /// <param name="callerName">The name of the calling method (automatically provided).</param>
+        /// <returns>The <see cref="CancellationToken"/> for the ongoing asynchronous command, if any; otherwise, a default <see cref="CancellationToken"/>.</returns>
+        /// <exception cref="ArgumentException">Thrown when <paramref name="callerName"/> is null or empty.</exception>
+        protected CancellationToken GetCurrentCancellationToken([CallerMemberName] string? callerName = null)
+        {
+            var command = GetAsyncCommand(callerName);
+            Debug.Assert(command is { IsExecuting: true, CancellationTokenSource.Token.CanBeCanceled: true });
+            return command?.CancellationTokenSource?.Token ?? default;
+        }
+
+        /// <summary>
         /// Registers an asynchronous command internally with the specified method name.
         /// Ensures that the command is properly managed and disposed of when no longer needed.
         /// </summary>
@@ -122,6 +143,11 @@ namespace DevExpress.Mvvm
         private void InternalRegisterAsyncCommand(string methodName, IAsyncCommand command)
         {
             Debug.Assert(!string.IsNullOrEmpty(methodName));
+#if NET8_0_OR_GREATER
+            ArgumentException.ThrowIfNullOrEmpty(methodName);
+#else
+            Throw.IfNullOrEmpty(methodName);
+#endif
             Lifetime.AddBracket(() => PropertyChanged += OnPropertyChanged, () => PropertyChanged -= OnPropertyChanged);
 
             var result = _asyncCommands.TryAdd(methodName, command);
@@ -135,9 +161,9 @@ namespace DevExpress.Mvvm
                 {
                     command.Cancel();//Cancel active commands while disposing
                     CommandManager.Unregister(command);
+                    result = _asyncCommands.TryRemove(methodName, out var asyncCommand);
+                    Debug.Assert(result && asyncCommand == command);
                     command = null!;
-                    result = _asyncCommands.TryRemove(methodName, out _);
-                    Debug.Assert(result);
                 }
             }
         }

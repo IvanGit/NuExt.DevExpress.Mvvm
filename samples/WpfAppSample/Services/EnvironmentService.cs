@@ -1,24 +1,13 @@
 ﻿using DevExpress.Mvvm;
 using System.IO;
+using WpfAppSample.Interfaces.Services;
 
 namespace WpfAppSample.Services
 {
-    internal class EnvironmentService : EnvironmentServiceBase, IEnvironmentService
+    internal sealed class EnvironmentService : EnvironmentServiceBase, IEnvironmentService
     {
-        public EnvironmentService(string baseDirectory, string[] args) : base(baseDirectory, args)
+        public EnvironmentService(string baseDirectory, params string[] args) : base(baseDirectory, Path.Combine(baseDirectory, "AppData"), args)
         {
-            ConfigDir = Path.Combine(BaseDirectory, "Config");
-            IOUtils.CheckDirectory(ConfigDir, true);
-            LogsDir = Path.Combine(WorkingDirectory, "Logs");
-            IOUtils.CheckDirectory(LogsDir, true);
         }
-
-        #region Properties
-
-        public string ConfigDir { get; }
-
-        public string LogsDir { get; }
-
-        #endregion
     }
 }

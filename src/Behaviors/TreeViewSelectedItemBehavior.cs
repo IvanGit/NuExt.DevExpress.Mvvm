@@ -1,17 +1,16 @@
-﻿using System.Reflection;
-using DevExpress.Mvvm.UI.Interactivity;
+﻿using DevExpress.Mvvm.UI.Interactivity;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Diagnostics;
 
 namespace DevExpress.Mvvm.UI
 {
     [TargetType(typeof(TreeView))]
-    public class TreeViewSelectedItemBehavior: Behavior<TreeView>
+    public class TreeViewSelectedItemBehavior : Behavior<TreeView>
     {
-        public static readonly DependencyProperty SelectedItemProperty =
-            DependencyProperty.Register(nameof(SelectedItem), typeof(object), typeof(TreeViewSelectedItemBehavior), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedItemChanged));
+        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(
+            nameof(SelectedItem), typeof(object), typeof(TreeViewSelectedItemBehavior), 
+            new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedItemChanged));
 
         private bool _inSelectedItemChanged;
 
@@ -42,6 +41,7 @@ namespace DevExpress.Mvvm.UI
 
             if (behavior.IsAttached == false) return;
             var tree = behavior.AssociatedObject;
+            if (tree == null) return;
 
             if (e.NewValue == null)
             {
@@ -85,7 +85,7 @@ namespace DevExpress.Mvvm.UI
         protected override void OnAttached()
         {
             base.OnAttached();
-            AssociatedObject.SelectedItemChanged += OnTreeViewSelectedItemChanged;
+            AssociatedObject!.SelectedItemChanged += OnTreeViewSelectedItemChanged;
         }
 
         protected override void OnDetaching()

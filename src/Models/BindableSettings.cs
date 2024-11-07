@@ -9,7 +9,7 @@ namespace DevExpress.Mvvm
 
         private class DirtySuspender : IDisposable
         {
-            private BindableSettings? _this;
+            private readonly BindableSettings _this;
 
             public DirtySuspender(BindableSettings self)
             {
@@ -24,15 +24,11 @@ namespace DevExpress.Mvvm
 
             public void Dispose()
             {
-                if (_this != null)
+                bool isDirtySuspended = _this.IsDirtySuspended;
+                Interlocked.Decrement(ref _this._isDirtySuspended);
+                if (isDirtySuspended != _this.IsDirtySuspended)
                 {
-                    bool isDirtySuspended = _this.IsDirtySuspended;
-                    Interlocked.Decrement(ref _this._isDirtySuspended);
-                    if (isDirtySuspended != _this.IsDirtySuspended)
-                    {
-                        _this.RaisePropertyChanged(nameof(IsDirtySuspended));
-                    }
-                    _this = null;
+                    _this.RaisePropertyChanged(nameof(IsDirtySuspended));
                 }
             }
         }
@@ -64,7 +60,7 @@ namespace DevExpress.Mvvm
             return true;
         }
 
-        protected virtual void OnPropertyChanged(string propertyName)
+        private void OnPropertyChanged(string propertyName)
         {
             if (!IsInitialized || IsDirtySuspended || 
                 propertyName is nameof(IsInitialized) or nameof(IsDirty))

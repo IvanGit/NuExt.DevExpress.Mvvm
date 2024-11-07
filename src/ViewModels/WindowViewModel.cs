@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace DevExpress.Mvvm
 {
@@ -76,10 +75,7 @@ namespace DevExpress.Mvvm
             catch (Exception ex)
             {
                 //TODO logging
-                if (forceClose == false)
-                {
-                    MessageBoxService?.ShowMessage(ex.Message, "Error while closing");
-                }
+                OnError(ex);
             }
 
             //await Task.Delay(1000);
@@ -88,38 +84,6 @@ namespace DevExpress.Mvvm
             Debug.Assert(CurrentWindowService != null, $"{nameof(CurrentWindowService)} is null");
             CurrentWindowService?.Close();
             CancellationTokenSource.Dispose();
-        }
-
-        /// <summary>
-        /// Called when the content of the window is rendered.
-        /// Allows for additional initialization or setup that depends on the window's content being ready.
-        /// </summary>
-        /// <param name="cancellationToken">A token for cancelling the operation.</param>
-        /// <returns>A task representing the asynchronous operation.</returns>
-        protected virtual ValueTask OnContentRenderedAsync(CancellationToken cancellationToken)
-        {
-            Debug.Assert(CurrentWindowService != null, $"{nameof(CurrentWindowService)} is null");
-            Debug.Assert(DispatcherService != null, $"{nameof(DispatcherService)} is null");
-            Debug.Assert(EnvironmentService != null, $"{nameof(EnvironmentService)} is null");
-            Debug.Assert(MessageBoxService != null, $"{nameof(MessageBoxService)} is null");
-            Debug.Assert(OpenWindowsService != null, $"{nameof(OpenWindowsService)} is null");
-            //Debug.Assert(SettingsService != null, $"{nameof(SettingsService)} is null");
-            Debug.Assert(WindowPlacementService != null, $"{nameof(WindowPlacementService)} is null");
-
-            return default;
-        }
-
-        /// <summary>
-        /// Initializes the ViewModel at runtime, setting up commands and other necessary components.
-        /// </summary>
-        protected override void OnInitializeInRuntime()
-        {
-            base.OnInitializeInRuntime();
-            ContentRenderedCommand = RegisterAsyncCommand(ContentRenderedAsync);
-            CloseCommand = RegisterCommand(Close, CanClose);
-            ClosingCommand = new DelegateCommand<CancelEventArgs>(Closing);
-            PlacementRestoredCommand = RegisterCommand(OnPlacementRestored);
-            PlacementSavedCommand = RegisterCommand(OnPlacementSaved);
         }
 
         #endregion

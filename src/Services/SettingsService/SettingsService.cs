@@ -1,5 +1,4 @@
-﻿using DevExpress.Mvvm.UI;
-using DevExpress.Mvvm.UI.Interactivity;
+﻿using DevExpress.Mvvm.UI.Interactivity;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -7,7 +6,7 @@ using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace DevExpress.Mvvm
+namespace DevExpress.Mvvm.UI
 {
     /// <summary>
     /// Provides a service for saving and loading settings.

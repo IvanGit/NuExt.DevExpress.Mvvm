@@ -70,21 +70,21 @@ namespace DevExpress.Mvvm
         }
 
         /// <summary>
-        /// Gets a value indicating whether the ViewModel is currently disposing.
-        /// </summary>
-        public bool IsDisposing
-        {
-            get { return GetProperty(() => IsDisposing); }
-            private set { SetProperty(() => IsDisposing, value, () => RaisePropertyChanged(nameof(IsUsable))); }
-        }
-
-        /// <summary>
         /// Gets a value indicating whether the ViewModel has been disposed.
         /// </summary>
         public bool IsDisposed
         {
             get { return GetProperty(() => IsDisposed); }
             private set { SetProperty(() => IsDisposed, value, () => RaisePropertyChanged(nameof(IsUsable))); }
+        }
+
+        /// <summary>
+        /// Gets a value indicating whether the ViewModel is currently disposing.
+        /// </summary>
+        public bool IsDisposing
+        {
+            get { return GetProperty(() => IsDisposing); }
+            private set { SetProperty(() => IsDisposing, value, () => RaisePropertyChanged(nameof(IsUsable))); }
         }
 
         /// <summary>
@@ -104,7 +104,6 @@ namespace DevExpress.Mvvm
         /// is neither in the process of being disposed nor already disposed.
         /// This property ensures that the object is in a valid state for operations.
         /// </remarks>
-        [EditorBrowsable(EditorBrowsableState.Never)]
         public bool IsUsable => IsInitialized && IsDisposed == false && IsDisposing == false;
 
         /// <summary>

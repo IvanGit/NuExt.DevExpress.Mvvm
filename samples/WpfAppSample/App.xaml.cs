@@ -9,6 +9,7 @@ using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Threading;
+using WpfAppSample.Interfaces.Services;
 using WpfAppSample.Services;
 using WpfAppSample.ViewModels;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
@@ -24,7 +25,7 @@ namespace WpfAppSample
         private readonly CancellationTokenSource _cts = new();
         private readonly bool _createdNew;
         private readonly EventWaitHandle _ewh;
-        private readonly Lifetime _lifetime = new();
+        private readonly IAsyncLifetime _lifetime = new AsyncLifetime(continueOnCapturedContext: true);
 
         public App()
         {
@@ -35,9 +36,25 @@ namespace WpfAppSample
 
         #region Properties
 
-        public PerformanceMonitor? PerformanceMonitor { get; private set; }
+        public PerformanceMonitor PerformanceMonitor { get; } = new (Process.GetCurrentProcess(), CultureInfo.InvariantCulture)
+        {
+            ShowPeakMemoryUsage = true,
+            ShowManagedMemory = true,
+            ShowPeakManagedMemory = true,
+            ShowThreads = true
+        };
+
+        public IServiceContainer ServiceContainer => DevExpress.Mvvm.ServiceContainer.Default;
 
         public Thread Thread => Dispatcher.Thread;
+
+        #endregion
+
+        #region Services
+
+        public IEnvironmentService? EnvironmentService => (IEnvironmentService?)GetService<IEnvironmentService>();
+
+        private IOpenWindowsService? OpenWindowsService => GetService<IOpenWindowsService>();
 
         #endregion
 
@@ -45,28 +62,22 @@ namespace WpfAppSample
 
         private void Application_DispatcherUnhandledException(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
-            var logger = ServiceContainer.Default.GetService<ILogger>();
+            var logger = GetService<ILogger>();
             logger?.LogError(e.Exception, "Dispatcher Unhandled Exception: {Exception}.", e.Exception.Message);
             e.Handled = true;
         }
 
         private async void Application_Exit(object sender, ExitEventArgs e)
         {
-            _lifetime.Dispose();
-
-            var logger = ServiceContainer.Default.GetService<ILogger>();
-            var windowsService = ServiceContainer.Default.GetService<IOpenWindowsService>();
+            var logger = GetService<ILogger>();
             try
             {
-                if (windowsService != null)
-                {
-                    await windowsService.DisposeAsync();
-                }
+                await _lifetime.DisposeAsync();
             }
             catch (Exception ex)
             {
                 Debug.Assert(false, ex.Message);
-                logger?.LogError(ex, "IOpenWindowsService disposing Exception: {Exception}.", ex.Message);
+                logger?.LogError(ex, "Application Exit Exception: {Exception}.", ex.Message);
             }
 
             logger?.LogInformation("Application exited with code {ExitCode}.", e.ApplicationExitCode);
@@ -79,12 +90,10 @@ namespace WpfAppSample
             {
                 return;
             }
-            var logger = ServiceContainer.Default.GetService<ILogger>();
-            Debug.Assert(logger != null);
-            var windowsService = ServiceContainer.Default.GetService<IOpenWindowsService>();
+            var logger = GetService<ILogger>();
             try
             {
-                await windowsService.DisposeAsync();
+                await OpenWindowsService!.DisposeAsync();
             }
             catch (Exception ex)
             {
@@ -106,22 +115,19 @@ namespace WpfAppSample
             PresentationTraceSources.DataBindingSource.Listeners.Add(new BindingErrorTraceListener());
 
             var environmentService = new EnvironmentService(AppDomain.CurrentDomain.BaseDirectory, e.Args);
-            ServiceContainer.Default.RegisterService(environmentService);
+            ServiceContainer.RegisterService(environmentService);
             //https://docs.devexpress.com/WPF/17444/mvvm-framework/services/getting-started
-            ServiceContainer.Default.RegisterService(new DispatcherService() { Name = "AppDispatcherService" });
-            ServiceContainer.Default.RegisterService(this);
+            ServiceContainer.RegisterService(new DispatcherService() { Name = "AppDispatcherService" });
+            ServiceContainer.RegisterService(this);
+            //ServiceContainer.RegisterService(new OpenWindowsService());
+            _lifetime.AddAsyncDisposable(OpenWindowsService!);
 
             ConfigureLogging(environmentService);
 
-            var logger = ServiceContainer.Default.GetService<ILogger>();
-            Debug.Assert(logger != null);
+            var logger = GetService<ILogger>();
             logger?.LogInformation("Application started.");
 
-            PerformanceMonitor = new PerformanceMonitor(Process.GetCurrentProcess(), CultureInfo.InvariantCulture)
-            {
-                ShowManagedMemory = true,
-                ShowThreads = true
-            };
+            ServiceContainer.RegisterService(new MoviesService(Path.Combine(environmentService.BaseDirectory, "movies.json")));
 
             var viewModel = new MainWindowViewModel() { };
             try
@@ -146,10 +152,10 @@ namespace WpfAppSample
 
         #region Methods
 
-        private static void ConfigureLogging(EnvironmentService environmentService)
+        private void ConfigureLogging(IEnvironmentService environmentService)
         {
             Debug.Assert(IOUtils.NormalizedPathEquals(environmentService.BaseDirectory, Directory.GetCurrentDirectory()));
-            var configFile = Path.Combine("Config", "nlog.config.json");
+            var configFile = Path.Combine(environmentService.ConfigDirectory, "nlog.config.json");
             Debug.Assert(File.Exists(configFile), $"Configuration file not found: {configFile}");
             var config = new ConfigurationBuilder()
                 .SetBasePath(environmentService.BaseDirectory)
@@ -166,12 +172,17 @@ namespace WpfAppSample
 #endif
                 builder.AddNLog(config);
             });
-            LogManager.Configuration.Variables["basedir"] = environmentService.LogsDir;
-            ServiceContainer.Default.RegisterService(loggerFactory);
+            LogManager.Configuration.Variables["basedir"] = environmentService.LogsDirectory;
+            ServiceContainer.RegisterService(loggerFactory);
 
             var logger = loggerFactory.CreateLogger("App");
             Debug.Assert(logger.IsEnabled(LogLevel.Debug));
-            ServiceContainer.Default.RegisterService(logger);
+            ServiceContainer.RegisterService(logger);
+        }
+
+        public T? GetService<T>() where T : class
+        {
+            return ServiceContainer.GetService<T>();
         }
 
         private async Task WaitForNotifyAsync(CancellationToken cancellationToken)
@@ -197,7 +208,7 @@ namespace WpfAppSample
             }
             catch (Exception ex)
             {
-                var logger = ServiceContainer.Default.GetService<ILogger>();
+                var logger = GetService<ILogger>();
                 logger?.LogError(ex, "Unexpected error");
             }
         }

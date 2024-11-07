@@ -1,4 +1,4 @@
-﻿namespace DevExpress.Mvvm
+﻿namespace WpfAppSample.Interfaces.Services
 {
     /// <summary>
     /// Provides access to various directories related to the application's environment, 
@@ -15,6 +15,11 @@
         /// Gets the application configuration directory.
         /// </summary>
         string ConfigDirectory { get; }
+
+        /// <summary>
+        /// Gets the logs directory where application logs are stored.
+        /// </summary>
+        string LogsDirectory { get; }
 
         /// <summary>
         /// Gets the application settings directory.

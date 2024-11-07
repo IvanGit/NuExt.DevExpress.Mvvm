@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace WpfAppSample.Views
 {
     /// <summary>
-    /// Interaction logic for TabView.xaml
+    /// Interaction logic for ErrorView.xaml
     /// </summary>
-    public partial class TabView : UserControl
+    public partial class ErrorView : UserControl
     {
-        public TabView()
+        public ErrorView()
         {
             InitializeComponent();
         }

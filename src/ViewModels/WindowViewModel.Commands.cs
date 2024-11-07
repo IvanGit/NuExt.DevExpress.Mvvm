@@ -80,7 +80,7 @@ namespace DevExpress.Mvvm
                 //TODO logging
                 if (CancellationTokenSource.IsCancellationRequested == false)
                 {
-                    MessageBoxService?.ShowMessage(ex.Message, "Error while content rendering");
+                    OnError(ex);
                 }
             }
 
@@ -150,6 +150,36 @@ namespace DevExpress.Mvvm
         protected virtual void OnPlacementSaved()
         {
 
+        }
+
+        #endregion
+
+        #region Methods
+
+        protected override void CreateCommands()
+        {
+            base.CreateCommands();
+
+            ContentRenderedCommand = RegisterAsyncCommand(ContentRenderedAsync);
+            CloseCommand = RegisterCommand(Close, CanClose);
+            ClosingCommand = RegisterCommand<CancelEventArgs>(Closing);
+            PlacementRestoredCommand = RegisterCommand(OnPlacementRestored);
+            PlacementSavedCommand = RegisterCommand(OnPlacementSaved);
+        }
+
+        /// <summary>
+        /// Called when the content of the window is rendered.
+        /// Allows for additional initialization or setup that depends on the window's content being ready.
+        /// </summary>
+        /// <param name="cancellationToken">A token for cancelling the operation.</param>
+        /// <returns>A task representing the asynchronous operation.</returns>
+        protected virtual ValueTask OnContentRenderedAsync(CancellationToken cancellationToken)
+        {
+            Debug.Assert(CurrentWindowService != null, $"{nameof(CurrentWindowService)} is null");
+            Debug.Assert(DispatcherService != null, $"{nameof(DispatcherService)} is null");
+            Debug.Assert(OpenWindowsService != null, $"{nameof(OpenWindowsService)} is null");
+            Debug.Assert(WindowPlacementService != null, $"{nameof(WindowPlacementService)} is null");
+            return default;
         }
 
         #endregion

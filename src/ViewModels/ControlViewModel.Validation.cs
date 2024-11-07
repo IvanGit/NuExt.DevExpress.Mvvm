@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 
 namespace DevExpress.Mvvm
 {
     partial class ControlViewModel
     {
         [Conditional("DEBUG")]
-        private void ValidateCommandManagerState()
+        private void ValidateDisposingState()
         {
             var typeName = GetType().FullName;
             var displayName = DisplayName ?? "Unnamed";

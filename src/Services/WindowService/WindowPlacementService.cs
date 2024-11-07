@@ -1,5 +1,4 @@
 ﻿using DevExpress.Mvvm.Native;
-using DevExpress.Mvvm.UI;
 using DevExpress.Mvvm.UI.Interactivity;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -9,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interop;
 
-namespace DevExpress.Mvvm
+namespace DevExpress.Mvvm.UI
 {
     /// <summary>
     /// Provides window placement services, allowing for the restoration and saving of window placement.
@@ -19,17 +18,17 @@ namespace DevExpress.Mvvm
     [TargetType(typeof(Window))]
     public class WindowPlacementService : WindowAwareServiceBase, IWindowPlacementService
     {
-        public static readonly DependencyProperty DirectoryNameProperty =
-            DependencyProperty.Register(nameof(DirectoryName), typeof(string), typeof(WindowPlacementService), new PropertyMetadata(string.Empty));
+        public static readonly DependencyProperty DirectoryNameProperty = DependencyProperty.Register(
+            nameof(DirectoryName), typeof(string), typeof(WindowPlacementService), new PropertyMetadata(string.Empty));
 
-        public static readonly DependencyProperty FileNameProperty =
-            DependencyProperty.Register(nameof(FileName), typeof(string), typeof(WindowPlacementService), new PropertyMetadata(string.Empty));
+        public static readonly DependencyProperty FileNameProperty = DependencyProperty.Register(
+            nameof(FileName), typeof(string), typeof(WindowPlacementService), new PropertyMetadata(string.Empty));
 
-        public static readonly DependencyProperty PlacementRestoredCommandProperty =
-            DependencyProperty.Register(nameof(PlacementRestoredCommand), typeof(ICommand), typeof(WindowPlacementService), new PropertyMetadata(null));
+        public static readonly DependencyProperty PlacementRestoredCommandProperty = DependencyProperty.Register(
+            nameof(PlacementRestoredCommand), typeof(ICommand), typeof(WindowPlacementService));
 
-        public static readonly DependencyProperty PlacementSavedCommandProperty =
-            DependencyProperty.Register(nameof(PlacementSavedCommand), typeof(ICommand), typeof(WindowPlacementService), new PropertyMetadata(null));
+        public static readonly DependencyProperty PlacementSavedCommandProperty = DependencyProperty.Register(
+            nameof(PlacementSavedCommand), typeof(ICommand), typeof(WindowPlacementService));
 
         #region Properties
 
@@ -54,18 +53,18 @@ namespace DevExpress.Mvvm
         /// <summary>
         /// Gets or sets the command to execute when placement is restored.
         /// </summary>
-        public ICommand PlacementRestoredCommand
+        public ICommand? PlacementRestoredCommand
         {
-            get => (ICommand)GetValue(PlacementRestoredCommandProperty);
+            get => (ICommand?)GetValue(PlacementRestoredCommandProperty);
             set => SetValue(PlacementRestoredCommandProperty, value);
         }
 
         /// <summary>
         /// Gets or sets the command to execute when placement is saved.
         /// </summary>
-        public ICommand PlacementSavedCommand
+        public ICommand? PlacementSavedCommand
         {
-            get => (ICommand)GetValue(PlacementSavedCommandProperty);
+            get => (ICommand?)GetValue(PlacementSavedCommandProperty);
             set => SetValue(PlacementSavedCommandProperty, value);
         }
 
@@ -153,13 +152,13 @@ namespace DevExpress.Mvvm
         private void OnPlacementRestored(object? sender, EventArgs e)
         {
             Restored?.Invoke(sender, e);
-            PlacementRestoredCommand.If(x => x.CanExecute(e)).Do(x => x.Execute(e));
+            PlacementRestoredCommand.If(x => x!.CanExecute(e)).Do(x => x!.Execute(e));
         }
 
         private void OnPlacementSaved(object? sender, EventArgs e)
         {
             Saved?.Invoke(sender, e);
-            PlacementSavedCommand.If(x => x.CanExecute(e)).Do(x => x.Execute(e));
+            PlacementSavedCommand.If(x => x!.CanExecute(e)).Do(x => x!.Execute(e));
         }
 
         #endregion

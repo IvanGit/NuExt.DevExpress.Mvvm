@@ -9,13 +9,28 @@
 - **`DevExpress.Mvvm.ControlViewModel`**: Base class for control-specific ViewModels.
 - **`DevExpress.Mvvm.DocumentContentViewModelBase`**: Base class for ViewModels that represent document content.
 - **`DevExpress.Mvvm.WindowViewModel`**: Base class for window-specific ViewModels.
-- **`DevExpress.Mvvm.WindowPlacementService`**: Saves and restores window placement between runs.
-- **`DevExpress.Mvvm.OpenWindowsService`**: Manages open window ViewModels within the application.
-- **`DevExpress.Mvvm.SettingsService`**: Facilitates saving and loading settings.
+- **`DevExpress.Mvvm.AsyncCommandManager`**: Manages instances of `IAsyncCommand`.
 - **`DevExpress.Mvvm.IAsyncDialogService`**: Displays dialog windows asynchronously.
 - **`DevExpress.Mvvm.IAsyncDocument`**: Asynchronous document created with `IAsyncDocumentManagerService`.
 - **`DevExpress.Mvvm.IAsyncDocumentManagerService`**: Manages asynchronous documents.
-- **`DevExpress.Mvvm.AsyncCommandManager`**: Manages instances of `IAsyncCommand`.
+- **`DevExpress.Mvvm.UI.OpenWindowsService`**: Manages open window ViewModels within the application.
+- **`DevExpress.Mvvm.UI.SettingsService`**: Facilitates saving and loading settings.
+- **`DevExpress.Mvvm.UI.TabbedDocumentUIService`**: Manages tabbed documents within a UI.
+- **`DevExpress.Mvvm.UI.WindowPlacementService`**: Saves and restores window placement between runs.
+
+### Installation
+
+You can install `NuExt.DevExpress.Mvvm` via [NuGet](https://www.nuget.org/):
+
+```sh
+dotnet add package NuExt.DevExpress.Mvvm
+```
+
+Or through the Visual Studio package manager:
+
+1. Go to `Tools -> NuGet Package Manager -> Manage NuGet Packages for Solution...`.
+2. Search for `NuExt.DevExpress.Mvvm`.
+3. Click "Install".
 
 ### Usage Examples
 

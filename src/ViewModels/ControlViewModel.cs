@@ -17,7 +17,10 @@ namespace DevExpress.Mvvm
     {
         #region Properties
 
-        protected IAsyncLifetime Lifetime { get; } = new AsyncLifetime(true);
+        /// <summary>
+        /// Gets the contract for managing the asynchronous lifecycle of resources and actions.
+        /// </summary>
+        protected IAsyncLifetime Lifetime { get; } = new AsyncLifetime(continueOnCapturedContext: true);
 
         #endregion
 
@@ -28,18 +31,6 @@ namespace DevExpress.Mvvm
         /// </summary>
         protected IDispatcherService? DispatcherService => GetService<IDispatcherService>();
 
-        /// <summary>
-        /// Gets the environment service which provides information about the environment in which the application is running.
-        /// </summary>
-        public IEnvironmentService? EnvironmentService => GetService<IEnvironmentService>();
-
-        /// <summary>
-        /// Gets the message box service for displaying messages to the user.
-        /// </summary>
-        protected IMessageBoxService? MessageBoxService => GetService<IMessageBoxService>();
-
-        //protected ISettingsService? SettingsService => GetService<ISettingsService>();
-
         #endregion
 
         #region Methods
@@ -49,7 +40,7 @@ namespace DevExpress.Mvvm
         /// </summary>
         protected override async ValueTask OnDisposeAsync()
         {
-            ValidateCommandManagerState();
+            ValidateDisposingState();
 
             await Lifetime.DisposeAsync();
 
@@ -64,7 +55,7 @@ namespace DevExpress.Mvvm
         protected virtual void OnError(Exception ex, [CallerMemberName] string? callerName = null)
         {
             Debug.Assert(CheckAccess());
-            MessageBoxService?.ShowMessage($"An error has occurred in {callerName}:{Environment.NewLine}{ex.Message}", "Error", MessageButton.OK, MessageIcon.Error);
+            Trace.WriteLine($"An error has occurred in {callerName}:{Environment.NewLine}{ex.Message}");
         }
 
         /// <summary>
@@ -75,11 +66,8 @@ namespace DevExpress.Mvvm
             Debug.Assert(IsInitialized == false);
             base.OnInitializeInRuntime();
 
-            Lifetime.Add(NullifyCommands);//last operation after CommandManager.WaitAll
+            Lifetime.AddBracket(CreateCommands, NullifyCommands);//last operation after CommandManager.WaitAll
             Lifetime.AddAsync(() => CommandManager.WaitAll());
-
-            LoadedCommand = RegisterCommand(OnLoaded);
-            UnloadedCommand = RegisterCommand(OnUnloaded);
         }
 
         #endregion

@@ -6,7 +6,7 @@ namespace DevExpress.Mvvm
     /// <summary>
     /// Provides a base implementation for environment-related services, initializing 
     /// various directories such as the base directory, configuration directory, application data directory, 
-    /// working directory, and settings directory.
+    /// working directory, logs directory and settings directory.
     /// </summary>
     public abstract class EnvironmentServiceBase
     {
@@ -14,18 +14,25 @@ namespace DevExpress.Mvvm
         /// Initializes a new instance of the <see cref="EnvironmentServiceBase"/> class with the specified base directory and arguments.
         /// </summary>
         /// <param name="baseDirectory">The base directory of the application.</param>
+        /// <param name="appDataDirectory">The application data directory.</param>
         /// <param name="args">An array of arguments passed to the application.</param>
-        protected EnvironmentServiceBase(string baseDirectory, string[] args)
+        protected EnvironmentServiceBase(string baseDirectory, string appDataDirectory, params string[] args)
         {
             BaseDirectory = baseDirectory;
+            AppDataDirectory = appDataDirectory;
             Args = args;
 
             ConfigDirectory = Path.Combine(BaseDirectory, "Config");
             IOUtils.CheckDirectory(ConfigDirectory, true);
-            AppDataDirectory = Path.Combine(BaseDirectory, "AppData");
+
             IOUtils.CheckDirectory(AppDataDirectory, true);
+
             WorkingDirectory = Path.Combine(AppDataDirectory, AssemblyInfo.Version!.ToString(2));
             IOUtils.CheckDirectory(WorkingDirectory, true);
+
+            LogsDirectory = Path.Combine(WorkingDirectory, "Logs");
+            IOUtils.CheckDirectory(LogsDirectory, true);
+
             SettingsDirectory = Path.Combine(WorkingDirectory, "Settings");
             IOUtils.CheckDirectory(SettingsDirectory, true);
         }
@@ -51,6 +58,11 @@ namespace DevExpress.Mvvm
         /// Gets the base application directory.
         /// </summary>
         public string BaseDirectory { get; }
+
+        /// <summary>
+        /// Gets the logs directory where application logs are stored.
+        /// </summary>
+        public string LogsDirectory { get; }
 
         /// <summary>
         /// Gets the application settings directory.

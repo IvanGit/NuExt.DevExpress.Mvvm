@@ -41,7 +41,7 @@ namespace DevExpress.Mvvm
         /// <summary>
         /// Gets a value indicating whether there are any async commands executing.
         /// </summary>
-        public bool HasActiveCommands => _commands.Keys.Any(command => command.IsExecuting);
+        public bool HasActiveCommands => _commands.Any(pair => pair.Key.IsExecuting);
 
         /// <summary>
         /// Handles the PropertyChanged event of an <see cref="IAsyncCommand"/> to manage its execution state.
@@ -74,7 +74,7 @@ namespace DevExpress.Mvvm
         /// </remarks>
         public bool All(Func<IAsyncCommand, bool> predicate)
         {
-            return _commands.Keys.All(predicate);
+            return _commands.All(pair => predicate(pair.Key));
         }
 
         /// <summary>
@@ -86,9 +86,9 @@ namespace DevExpress.Mvvm
         /// </remarks>
         public void CancelAll()
         {
-            foreach (var command in _commands.Keys)
+            foreach (var pair in _commands)
             {
-                command.Cancel();
+                pair.Key.Cancel();
             }
         }
 

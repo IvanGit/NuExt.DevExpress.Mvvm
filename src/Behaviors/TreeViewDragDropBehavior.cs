@@ -9,9 +9,8 @@ namespace DevExpress.Mvvm.UI
 {
     public class TreeViewDragDropBehavior : Behavior<TreeView>
     {
-        public static readonly DependencyProperty MoveCommandProperty =
-            DependencyProperty.Register(nameof(MoveCommand), typeof(ICommand), typeof(TreeViewDragDropBehavior),
-                new PropertyMetadata(null));
+        public static readonly DependencyProperty MoveCommandProperty = DependencyProperty.Register(
+            nameof(MoveCommand), typeof(ICommand), typeof(TreeViewDragDropBehavior));
 
         private Rectangle? _dragBoxFromMouseDown;
         private object? _mouseDownOriginalSource;
@@ -28,7 +27,7 @@ namespace DevExpress.Mvvm.UI
 
         #region Event Handlers
 
-        private static void OnDragOver(object sender, DragEventArgs e)
+        private static void OnDragOver(object? sender, DragEventArgs e)
         {
             if (e.Data.GetData(typeof(IDragDrop)) is not IDragDrop draggedObject || GetDragDrop(e.OriginalSource)?.CanDrop(draggedObject) != true)
             {
@@ -40,7 +39,8 @@ namespace DevExpress.Mvvm.UI
             }
             e.Handled = true;
         }
-        private void OnDrop(object sender, DragEventArgs e)
+
+        private void OnDrop(object? sender, DragEventArgs e)
         {
             if (e.Data.GetData(typeof(IDragDrop)) is IDragDrop draggedObject && MoveCommand?.CanExecute(draggedObject) != false && GetDragDrop(e.OriginalSource)?.Drop(draggedObject) == true)
             {
@@ -49,7 +49,7 @@ namespace DevExpress.Mvvm.UI
             }
         }
 
-        private void OnMouseMove(object sender, MouseEventArgs e)
+        private void OnMouseMove(object? sender, MouseEventArgs e)
         {
             if (e.LeftButton != MouseButtonState.Pressed)
             {
@@ -82,7 +82,7 @@ namespace DevExpress.Mvvm.UI
             }
         }
 
-        private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void OnMouseLeftButtonDown(object? sender, MouseButtonEventArgs e)
         {
             Debug.Assert(Equals(sender, AssociatedObject));
 
@@ -97,7 +97,7 @@ namespace DevExpress.Mvvm.UI
                 (int)(SystemParameters.MinimumVerticalDragDistance * 2));
         }
 
-        private void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void OnMouseLeftButtonUp(object? sender, MouseButtonEventArgs e)
         {
             _dragBoxFromMouseDown = null;
             _mouseDownOriginalSource = null;

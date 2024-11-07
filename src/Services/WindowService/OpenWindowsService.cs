@@ -1,7 +1,6 @@
-﻿using DevExpress.Mvvm.UI;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
-namespace DevExpress.Mvvm
+namespace DevExpress.Mvvm.UI
 {
     /// <summary>
     /// Provides services for managing open window view models within the application.
