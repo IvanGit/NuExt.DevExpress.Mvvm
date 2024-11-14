@@ -173,7 +173,7 @@ namespace DevExpress.Mvvm.UI
             {
                 return;
             }
- 
+
             var comboBoxItems = comboBox.GetComboBoxItems();
             if (comboBoxItems == null)
             {

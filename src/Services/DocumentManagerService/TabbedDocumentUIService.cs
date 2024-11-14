@@ -84,7 +84,7 @@ namespace DevExpress.Mvvm.UI
 
             private void OnTabHeaderChanged(object? sender, EventArgs e)
             {
-                OnPropertyChanged(nameof(Title));
+                OnPropertyChanged(EventArgsCache.TitlePropertyChanged);
             }
 
             private void OnTabIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -505,5 +505,10 @@ namespace DevExpress.Mvvm.UI
         }
 
         #endregion
+    }
+
+    internal static partial class EventArgsCache
+    {
+        internal static readonly PropertyChangedEventArgs TitlePropertyChanged = new(nameof(IAsyncDocument.Title));
     }
 }
