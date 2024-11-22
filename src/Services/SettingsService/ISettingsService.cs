@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Text.Json;
 
 namespace DevExpress.Mvvm
 {
@@ -17,15 +18,17 @@ namespace DevExpress.Mvvm
         /// </summary>
         /// <param name="settings">The bindable object into which the settings will be loaded.</param>
         /// <param name="name">The name of the settings file, defaulting to "Settings".</param>
+        /// <param name="options">Options to control the behavior during parsing.</param>
         /// <returns>True if the settings were successfully loaded; otherwise, false.</returns>
-        bool LoadSettings(IBindable settings, string name = "Settings");
+        bool LoadSettings(IBindable settings, string name = "Settings", JsonSerializerOptions? options = null);
 
         /// <summary>
         /// Saves the settings from the specified bindable object.
         /// </summary>
         /// <param name="settings">The bindable object from which the settings will be saved.</param>
         /// <param name="name">The name of the settings file, defaulting to "Settings".</param>
+        /// <param name="options">Options to control the conversion behavior.</param>
         /// <returns>True if the settings were successfully saved; otherwise, false.</returns>
-        bool SaveSettings(IBindable settings, string name = "Settings");
+        bool SaveSettings(IBindable settings, string name = "Settings", JsonSerializerOptions? options = null);
     }
 }

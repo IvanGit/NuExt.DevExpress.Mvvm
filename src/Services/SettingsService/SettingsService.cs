@@ -99,8 +99,9 @@ namespace DevExpress.Mvvm.UI
         /// </summary>
         /// <param name="settings">The bindable object to load settings into.</param>
         /// <param name="name">The name of the settings file (default is "Settings").</param>
+        /// <param name="options">Options to control the behavior during parsing.</param>
         /// <returns>true if the settings were loaded successfully; otherwise, false.</returns>
-        public bool LoadSettings(IBindable settings, string name = "Settings")
+        public bool LoadSettings(IBindable settings, string name = "Settings", JsonSerializerOptions? options = null)
         {
             Debug.Assert(settings != null, "settings is null");
 #if NET6_0_OR_GREATER
@@ -122,7 +123,7 @@ namespace DevExpress.Mvvm.UI
                     var json = File.ReadAllText(filePath);
                     if (!string.IsNullOrEmpty(json))
                     {
-                        ObjectUtils.DeserializeObject(json, settings.GetPropertyType, settings.SetProperty);
+                        ObjectUtils.DeserializeObject(json, settings.GetPropertyType, settings.SetProperty, options);
                         return true;
                     }
                 }
@@ -140,8 +141,9 @@ namespace DevExpress.Mvvm.UI
         /// </summary>
         /// <param name="settings">The bindable object containing the settings to save.</param>
         /// <param name="name">The name of the settings file (default is "Settings").</param>
+        /// <param name="options">Options to control the conversion behavior.</param>
         /// <returns>true if the settings were saved successfully; otherwise, false.</returns>
-        public bool SaveSettings(IBindable settings, string name = "Settings")
+        public bool SaveSettings(IBindable settings, string name = "Settings", JsonSerializerOptions? options = null)
         {
             Debug.Assert(settings != null, "settings is null");
 #if NET6_0_OR_GREATER
@@ -158,7 +160,7 @@ namespace DevExpress.Mvvm.UI
             try
             {
                 string filePath = Path.Combine(DirectoryName, GetFileName(name));
-                string? s = ObjectUtils.SerializeObject(settings);
+                string? s = ObjectUtils.SerializeObject(settings, options);
                 if (!string.IsNullOrEmpty(s))
                 {
                     File.WriteAllText(filePath, s);
