@@ -1,4 +1,5 @@
 ﻿using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace DevExpress.Mvvm
 {
@@ -38,6 +39,7 @@ namespace DevExpress.Mvvm
         #region Properties
 
         private bool _isDirty;
+        [JsonIgnore]
         public bool IsDirty
         {
             get => _isDirty;
@@ -45,6 +47,7 @@ namespace DevExpress.Mvvm
         }
 
         private volatile int _isSuspended;
+        [JsonIgnore]
         public bool IsSuspended => _isSuspended != 0;
 
         private volatile int _isDirtySuspended;

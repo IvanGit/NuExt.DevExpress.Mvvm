@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 
 namespace DevExpress.Mvvm
 {
@@ -23,6 +24,7 @@ namespace DevExpress.Mvvm
         /// <summary>
         /// Gets a value indicating whether the object has been initialized.
         /// </summary>
+        [JsonIgnore]
         public bool IsInitialized
         {
             get { return GetProperty(() => IsInitialized); }

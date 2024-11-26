@@ -104,7 +104,7 @@ namespace WpfAppSample.ViewModels
                     {
                         await viewModel.SetParameter(group.Name).SetParentViewModel(this).InitializeAsync(cancellationToken);
                         var dlgResult = await DialogService!.ShowDialogAsync(MessageButton.OKCancel,
-                            "Edit Group Name", nameof(InputDialogView), viewModel, cancellationToken);
+                            "Edit Group", nameof(InputDialogView), viewModel, cancellationToken);
                         if (dlgResult != MessageResult.OK || string.IsNullOrWhiteSpace(viewModel.InputText))
                         {
                             return;
@@ -152,7 +152,7 @@ namespace WpfAppSample.ViewModels
             await using (var viewModel = new InputDialogViewModel() { InputMessage = "Enter new group name" })
             {
                 await viewModel.SetParameter(groupName).SetParentViewModel(this).InitializeAsync(cancellationToken);
-                var dlgResult = await DialogService!.ShowDialogAsync(MessageButton.OKCancel, "New Group Name",
+                var dlgResult = await DialogService!.ShowDialogAsync(MessageButton.OKCancel, "New Group",
                     nameof(InputDialogView), viewModel, cancellationToken);
                 if (dlgResult != MessageResult.OK)
                 {
