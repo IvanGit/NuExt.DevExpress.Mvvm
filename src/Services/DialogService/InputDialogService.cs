@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 
 namespace DevExpress.Mvvm.UI
 {
@@ -8,6 +9,31 @@ namespace DevExpress.Mvvm.UI
     /// </summary>
     public class InputDialogService : ViewServiceBase, IAsyncDialogService
     {
+        #region Dependency Properties
+
+        /// <summary>
+        /// Identifies the <see cref="ValidatesOnDataErrors"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ValidatesOnDataErrorsProperty = DependencyProperty.Register(
+            nameof(ValidatesOnDataErrors), typeof(bool), typeof(InputDialogService), new PropertyMetadata(false));
+
+        #endregion
+
+        #region Properties
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the service should check for validation errors
+        /// when closing the dialog. If true, the service will prevent the dialog from closing if there are validation errors.
+        /// This applies only if the ViewModel implements the <see cref="IDataErrorInfo"/> interface.
+        /// </summary>
+        public bool ValidatesOnDataErrors
+        {
+            get => (bool)GetValue(ValidatesOnDataErrorsProperty);
+            set => SetValue(ValidatesOnDataErrorsProperty, value);
+        }
+
+        #endregion
+
         #region Methods
 
         /// <summary>
@@ -42,6 +68,7 @@ namespace DevExpress.Mvvm.UI
                 CommandsSource = dialogCommands,
                 Content = view,
                 Owner = GetWindow(),
+                ValidatesOnDataErrors = ValidatesOnDataErrors,
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
             };
 

@@ -129,11 +129,12 @@ namespace WpfAppSample
 
             ServiceContainer.RegisterService(new MoviesService(Path.Combine(environmentService.BaseDirectory, "movies.json")));
 
-            var viewModel = new MainWindowViewModel() { };
+            var viewModel = new MainWindowViewModel();
             try
             {
+                var window = new MainWindow { DataContext = viewModel };
                 await viewModel.SetParentViewModel(this).InitializeAsync(viewModel.CancellationTokenSource.Token);
-                new MainWindow { DataContext = viewModel }.Show();
+                window.Show();
             }
             catch (Exception ex)
             {

@@ -71,19 +71,17 @@ namespace DevExpress.Mvvm
             try
             {
                 await DisposeAsync();
+
+                Debug.Assert(CheckAccess());
+                Debug.Assert(CurrentWindowService != null, $"{nameof(CurrentWindowService)} is null");
+                CurrentWindowService?.Close();
+                CancellationTokenSource.Dispose();
             }
             catch (Exception ex)
             {
                 //TODO logging
                 OnError(ex);
             }
-
-            //await Task.Delay(1000);
-
-            Debug.Assert(CheckAccess());
-            Debug.Assert(CurrentWindowService != null, $"{nameof(CurrentWindowService)} is null");
-            CurrentWindowService?.Close();
-            CancellationTokenSource.Dispose();
         }
 
         #endregion

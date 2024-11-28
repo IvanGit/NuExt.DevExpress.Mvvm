@@ -1,11 +1,12 @@
 ﻿using DevExpress.Mvvm;
+using System.ComponentModel;
 using System.Diagnostics;
 using WpfAppSample.Interfaces.Services;
 using WpfAppSample.Models;
 
 namespace WpfAppSample.ViewModels
 {
-    internal sealed class EditMovieViewModel: ControlViewModel
+    internal sealed class EditMovieViewModel : ControlViewModel, IDataErrorInfo
     {
         #region Properties
 
@@ -27,6 +28,14 @@ namespace WpfAppSample.ViewModels
             Debug.Assert(MoviesService != null, $"{nameof(MoviesService)} is null");
             return default;
         }
+
+        #endregion
+
+        #region IDataErrorInfo
+
+        public string Error => Movie.Error;
+
+        string IDataErrorInfo.this[string columnName] => null!;
 
         #endregion
     }

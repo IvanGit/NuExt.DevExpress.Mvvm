@@ -14,8 +14,8 @@
         Title="{Binding Title, TargetNullValue='Untitled'}" Height="450" Width="800" MinHeight="450" MinWidth="800">
     <dxmvvm:Interaction.Behaviors>
         <dxmvvm:DispatcherService x:Name="MainDispatcherService"/>
-        <dxmvvm:MessageBoxService x:Name="MainMessageBoxService" />
-        <dxmvvm:InputDialogService/>
+        <dxmvvm:MessageBoxService x:Name="MainMessageBoxService"/>
+        <dxmvvm:InputDialogService ValidatesOnDataErrors="True"/>
         <dxmvvm:CurrentWindowService ClosingCommand="{Binding ClosingCommand}"/>
         <dxmvvm:EventToCommand EventName="ContentRendered" Command="{Binding ContentRenderedCommand}"/>
         <dxmvvm:EventToCommand EventName="Loaded" Command="{Binding LoadedCommand}"/>
