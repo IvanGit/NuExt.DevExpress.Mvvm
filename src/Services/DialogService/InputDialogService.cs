@@ -17,6 +17,12 @@ namespace DevExpress.Mvvm.UI
         public static readonly DependencyProperty ValidatesOnDataErrorsProperty = DependencyProperty.Register(
             nameof(ValidatesOnDataErrors), typeof(bool), typeof(InputDialogService), new PropertyMetadata(false));
 
+        /// <summary>
+        /// Identifies the <see cref="ValidatesOnNotifyDataErrors"/> dependency property.
+        /// </summary>
+        public static readonly DependencyProperty ValidatesOnNotifyDataErrorsProperty = DependencyProperty.Register(
+            nameof(ValidatesOnNotifyDataErrors), typeof(bool), typeof(InputDialogService), new PropertyMetadata(false));
+
         #endregion
 
         #region Properties
@@ -30,6 +36,17 @@ namespace DevExpress.Mvvm.UI
         {
             get => (bool)GetValue(ValidatesOnDataErrorsProperty);
             set => SetValue(ValidatesOnDataErrorsProperty, value);
+        }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the dialog should check for validation errors
+        /// when closing. If true, the dialog will prevent closing if there are validation errors.
+        /// This applies only if the ViewModel implements the <see cref="INotifyDataErrorInfo"/> interface.
+        /// </summary>
+        public bool ValidatesOnNotifyDataErrors
+        {
+            get => (bool)GetValue(ValidatesOnNotifyDataErrorsProperty);
+            set => SetValue(ValidatesOnNotifyDataErrorsProperty, value);
         }
 
         #endregion
@@ -69,6 +86,7 @@ namespace DevExpress.Mvvm.UI
                 Content = view,
                 Owner = GetWindow(),
                 ValidatesOnDataErrors = ValidatesOnDataErrors,
+                ValidatesOnNotifyDataErrors = ValidatesOnNotifyDataErrors,
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
             };
 

@@ -1,10 +1,10 @@
-﻿using WpfAppSample.Models;
+﻿using DevExpress.Mvvm;
 
 namespace WpfAppSample.Interfaces.ViewModels
 {
     public interface IMainWindowViewModel
     {
-        ValueTask CloseMovieAsync(MovieModel movie, CancellationToken cancellationToken);
-        ValueTask OpenMovieAsync(MovieModel movie, CancellationToken cancellationToken);
+        IAsyncCommand? CloseMovieCommand { get; }
+        IAsyncCommand? OpenMovieCommand { get; }
     }
 }

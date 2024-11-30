@@ -9,7 +9,7 @@ namespace DevExpress.Mvvm.UI
     /// </summary>
     public sealed class OpenWindowsService : ServiceBase, IOpenWindowsService
     {
-        private readonly List<IWindowViewModel> _viewModels = new();
+        private readonly List<IWindowViewModel> _viewModels = [];
         private readonly AsyncLock _lock = new();
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace DevExpress.Mvvm.UI
                     }
                     catch (Exception ex)
                     {
-                        exceptions ??= new List<Exception>();
+                        exceptions ??= [];
                         exceptions.Add(ex);
                     }
                 }

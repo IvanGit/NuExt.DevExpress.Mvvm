@@ -21,7 +21,7 @@ namespace WpfAppSample.ViewModels
             set { SetProperty(() => ActiveDocument, value, OnActiveDocumentChanged); }
         }
 
-        public ObservableCollection<IMenuItemViewModel> MenuItems { get; } = new();
+        public ObservableCollection<IMenuItemViewModel> MenuItems { get; } = [];
 
         #endregion
 
@@ -48,14 +48,6 @@ namespace WpfAppSample.ViewModels
         #endregion
 
         #region Methods
-
-        public async ValueTask CloseMovieAsync(MovieModel movie, CancellationToken cancellationToken)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            var doc = DocumentManagerService!.FindDocumentById(new MovieDocument(movie));
-            if (doc == null) return;
-            await doc.CloseAsync();
-        }
 
         private ValueTask LoadMenuAsync(CancellationToken cancellationToken)
         {
@@ -117,33 +109,6 @@ namespace WpfAppSample.ViewModels
 
             cancellationToken.ThrowIfCancellationRequested();
             return default;
-        }
-
-        public async ValueTask OpenMovieAsync(MovieModel movie, CancellationToken cancellationToken)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            var document = await DocumentManagerService!.FindDocumentByIdOrCreateAsync(new MovieDocument(movie), async x =>
-            {
-                var vm = new MovieViewModel();
-                var doc = x.CreateDocument(nameof(MovieView), vm, movie, this);
-                doc.DestroyOnClose = true;
-                try
-                {
-                    await vm.InitializeAsync(cancellationToken);
-                }
-                catch (Exception ex)
-                {
-                    Debug.Assert(ex is OperationCanceledException, ex.Message);
-                    //await vm.DisposeAsync();
-                    if (doc is IAsyncDisposable asyncDisposable)
-                    {
-                        await asyncDisposable.DisposeAsync();
-                    }
-                    throw;
-                }
-                return doc;
-            });
-            document.Show();
         }
 
         private void UpdateTitle()

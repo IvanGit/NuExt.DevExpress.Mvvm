@@ -23,7 +23,7 @@ DevExpress.Mvvm.UI.OpenWindowsService
 DevExpress.Mvvm.UI.SettingsService
 DevExpress.Mvvm.UI.TabbedDocumentUIService
 DevExpress.Mvvm.UI.WindowPlacementService</Description>
-    <Version>0.2.4</Version>
+    <Version>0.2.5</Version>
     <RootNamespace>DevExpress.Mvvm</RootNamespace>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591</NoWarn>
