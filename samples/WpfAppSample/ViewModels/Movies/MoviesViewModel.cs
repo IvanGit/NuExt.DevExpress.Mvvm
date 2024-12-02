@@ -74,7 +74,7 @@ namespace WpfAppSample.ViewModels
         protected override void OnError(Exception ex, [CallerMemberName] string? callerName = null)
         {
             base.OnError(ex, callerName);
-            MessageBoxService.Show($"An error has occurred in {callerName}:{Environment.NewLine}{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBoxService.Show(string.Format(Loc.An_error_has_occurred_in_Arg0_Arg1, callerName, ex.Message), Loc.Error, MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
         protected override async ValueTask OnInitializeAsync(CancellationToken cancellationToken)
@@ -93,7 +93,7 @@ namespace WpfAppSample.ViewModels
         {
             base.OnInitializeInRuntime();
 
-            Movies = new ObservableCollection<MovieModelBase>();
+            Movies = [];
             Lifetime.Add(Movies.Clear);
 
             MoviesView = new ListCollectionView(Movies);

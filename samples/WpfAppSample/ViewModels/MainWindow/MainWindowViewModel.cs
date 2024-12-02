@@ -57,22 +57,22 @@ namespace WpfAppSample.ViewModels
             {
                 new MenuItemViewModel()
                 {
-                    Header = "File",
+                    Header = Loc.File,
                     SubMenuItems=new ObservableCollection<IMenuItemViewModel?>(new IMenuItemViewModel?[]
                     {
-                        new MenuItemViewModel() { Header = "Movies", Command = ShowMoviesCommand },
+                        new MenuItemViewModel() { Header = Loc.Movies, Command = ShowMoviesCommand },
                         null,
-                        new MenuItemViewModel() { Header = "Exit", Command = CloseCommand }
+                        new MenuItemViewModel() { Header = Loc.Exit, Command = CloseCommand }
                     })
                 },
                 new MenuItemViewModel()
                 {
-                    Header = "View",
+                    Header = Loc.View,
                     SubMenuItems=new ObservableCollection<IMenuItemViewModel?>(new IMenuItemViewModel?[]
                     {
-                        new MenuItemViewModel() { Header = "Hide Active Document", CommandParameter = false, Command = ShowHideActiveDocumentCommand },
-                        new MenuItemViewModel() { Header = "Show Active Document", CommandParameter = true, Command = ShowHideActiveDocumentCommand },
-                        new MenuItemViewModel() { Header = "Close Active Document", Command = CloseActiveDocumentCommand }
+                        new MenuItemViewModel() { Header = Loc.Hide_Active_Document, CommandParameter = false, Command = ShowHideActiveDocumentCommand },
+                        new MenuItemViewModel() { Header = Loc.Show_Active_Document, CommandParameter = true, Command = ShowHideActiveDocumentCommand },
+                        new MenuItemViewModel() { Header = Loc.Close_Active_Document, Command = CloseActiveDocumentCommand }
                     })
                 }
             };
@@ -91,12 +91,12 @@ namespace WpfAppSample.ViewModels
         protected override void OnError(Exception ex, [CallerMemberName] string? callerName = null)
         {
             base.OnError(ex, callerName);
-            MessageBoxService?.ShowMessage($"An error has occurred in {callerName}:{Environment.NewLine}{ex.Message}", "Error", MessageButton.OK, MessageIcon.Error);
+            MessageBoxService?.ShowMessage(string.Format(Loc.An_error_has_occurred_in_Arg0_Arg1, callerName, ex.Message), Loc.Error, MessageButton.OK, MessageIcon.Error);
         }
 
         protected override ValueTask OnInitializeAsync(CancellationToken cancellationToken)
         {
-            Debug.Assert(DocumentManagerService is IAsyncDisposable, $"{nameof(DocumentManagerService)} is not {nameof(IAsyncDisposable)}");
+            Debug.Assert(DocumentManagerService != null, $"{nameof(DocumentManagerService)} is null");
             Debug.Assert(EnvironmentService != null, $"{nameof(EnvironmentService)} is null");
             Debug.Assert(MessageBoxService != null, $"{nameof(MessageBoxService)} is null");
             Debug.Assert(MoviesService != null, $"{nameof(MoviesService)} is null");

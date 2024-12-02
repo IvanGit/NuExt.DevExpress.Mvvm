@@ -4,7 +4,7 @@ using System.Diagnostics;
 namespace WpfAppSample.Models
 {
     [DebuggerDisplay("Name={Name}")]
-    public sealed class PersonModel: BindableBase, ICloneable<PersonModel>
+    public sealed class PersonModel : BindableBase, ICloneable<PersonModel>
     {
         #region Properties
 
@@ -20,7 +20,7 @@ namespace WpfAppSample.Models
 
         public PersonModel Clone()
         {
-            return new PersonModel() { Name = Name};
+            return new PersonModel() { Name = Name };
         }
 
         object ICloneable.Clone()

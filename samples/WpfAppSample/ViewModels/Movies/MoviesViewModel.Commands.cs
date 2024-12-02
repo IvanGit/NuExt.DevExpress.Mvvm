@@ -1,5 +1,4 @@
 ﻿using DevExpress.Mvvm;
-using DevExpress.Mvvm.UI;
 using System.Windows;
 using System.Windows.Input;
 using WpfAppSample.Models;
@@ -23,10 +22,10 @@ namespace WpfAppSample.ViewModels
             private set { SetProperty(() => EditCommand, value); }
         }
 
-        public ICommand? ExpandCollapseCommand
+        public ICommand? ExpandOrCollapseCommand
         {
-            get => GetProperty(() => ExpandCollapseCommand);
-            private set { SetProperty(() => ExpandCollapseCommand, value); }
+            get => GetProperty(() => ExpandOrCollapseCommand);
+            private set { SetProperty(() => ExpandOrCollapseCommand, value); }
         }
 
         public ICommand? MoveCommand
@@ -57,13 +56,13 @@ namespace WpfAppSample.ViewModels
 
         #region Command Methods
 
-        private bool CanDelete() => CanEdit() && ParentViewModel?.CloseMovieCommand != null;
+        private bool CanDelete() => CanEdit() && ParentViewModel?.CloseMovieCommand is not null;
 
         private async Task DeleteAsync()
         {
             var cancellationToken = GetCurrentCancellationToken();
 
-            var dialogResult = MessageBoxService.Show($"Are you sure you want to delete '{SelectedItem?.Name}'?", "Confirmation",
+            var dialogResult = MessageBoxService.Show(string.Format(Loc.Are_you_sure_you_want_to_delete__Arg0__, SelectedItem?.Name), Loc.Confirmation,
                 MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (dialogResult != MessageBoxResult.Yes)
             {
@@ -100,11 +99,11 @@ namespace WpfAppSample.ViewModels
             switch (clone)
             {
                 case MovieGroupModel group:
-                    await using (var viewModel = new InputDialogViewModel() { InputMessage = "Enter new group name" })
+                    await using (var viewModel = new InputDialogViewModel() { InputMessage = Loc.Enter_new_group_name })
                     {
                         await viewModel.SetParameter(group.Name).SetParentViewModel(this).InitializeAsync(cancellationToken);
                         var dlgResult = await DialogService!.ShowDialogAsync(MessageButton.OKCancel,
-                            "Edit Group", nameof(InputDialogView), viewModel, cancellationToken);
+                            Loc.Edit_Group, nameof(InputDialogView), viewModel, cancellationToken);
                         if (dlgResult != MessageResult.OK || string.IsNullOrWhiteSpace(viewModel.InputText))
                         {
                             return;
@@ -118,7 +117,7 @@ namespace WpfAppSample.ViewModels
                     {
                         await viewModel.SetParameter(movie).SetParentViewModel(this).InitializeAsync(cancellationToken);
 
-                        var dlgResult = await DialogService!.ShowDialogAsync(MessageButton.OKCancel, "Edit Movie",
+                        var dlgResult = await DialogService!.ShowDialogAsync(MessageButton.OKCancel, Loc.Edit_Movie,
                             nameof(EditMovieView), viewModel, cancellationToken);
                         if (dlgResult != MessageResult.OK) 
                         {
@@ -149,10 +148,10 @@ namespace WpfAppSample.ViewModels
             var cancellationToken = GetCurrentCancellationToken();
 
             string? groupName = null;
-            await using (var viewModel = new InputDialogViewModel() { InputMessage = "Enter new group name" })
+            await using (var viewModel = new InputDialogViewModel() { InputMessage = Loc.Enter_new_group_name })
             {
                 await viewModel.SetParameter(groupName).SetParentViewModel(this).InitializeAsync(cancellationToken);
-                var dlgResult = await DialogService!.ShowDialogAsync(MessageButton.OKCancel, "New Group",
+                var dlgResult = await DialogService!.ShowDialogAsync(MessageButton.OKCancel, Loc.New_Group,
                     nameof(InputDialogView), viewModel, cancellationToken);
                 if (dlgResult != MessageResult.OK)
                 {
@@ -193,14 +192,14 @@ namespace WpfAppSample.ViewModels
 
             var movie = new MovieModel()
             {
-                Name = "New Movie",
+                Name = Loc.New_Movie,
                 ReleaseDate = DateTime.Today,
                 Parent = SelectedItem is MovieGroupModel { IsRoot: false } group ? group : null
             };
 
             await viewModel.SetParameter(movie).SetParentViewModel(this).InitializeAsync(cancellationToken);
 
-            var dlgResult = await DialogService!.ShowDialogAsync(MessageButton.OKCancel, "New Movie", nameof(EditMovieView), viewModel, cancellationToken);
+            var dlgResult = await DialogService!.ShowDialogAsync(MessageButton.OKCancel, Loc.New_Movie, nameof(EditMovieView), viewModel, cancellationToken);
             if (dlgResult != MessageResult.OK)
             {
                 return;
@@ -224,7 +223,6 @@ namespace WpfAppSample.ViewModels
 
         private async Task OpenMovieAsync(MovieModelBase? item)
         {
-            var cancellationToken = GetCurrentCancellationToken();
             await ParentViewModel!.OpenMovieCommand!.ExecuteAsync(item as MovieModel);
         }
 
@@ -269,7 +267,7 @@ namespace WpfAppSample.ViewModels
             NewMovieCommand = RegisterAsyncCommand(NewMovieAsync, CanNewMovie);
             MoveCommand = RegisterAsyncCommand<MovieModelBase?>(MoveAsync, CanMove);
             OpenMovieCommand = RegisterAsyncCommand<MovieModelBase?>(OpenMovieAsync, CanOpenMovie);
-            ExpandCollapseCommand = RegisterCommand<bool>(ExpandOrCollapse, _ => IsUsable);
+            ExpandOrCollapseCommand = RegisterCommand<bool>(ExpandOrCollapse, _ => IsUsable);
         }
 
         protected override void OnLoaded()

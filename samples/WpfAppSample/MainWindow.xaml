@@ -4,14 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfAppSample"
         xmlns:viewModels="clr-namespace:WpfAppSample.ViewModels"
-        xmlns:controlzex="urn:controlzex"
         xmlns:views="clr-namespace:WpfAppSample.Views"
+        xmlns:controlzex="urn:controlzex"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance {x:Type viewModels:MainWindowViewModel}, IsDesignTimeCreatable=True}"
         ResizeMode="CanResizeWithGrip"
         WindowStartupLocation="CenterScreen"
-        Title="{Binding Title, TargetNullValue='Untitled'}" Height="450" Width="800" MinHeight="450" MinWidth="800">
+        Title="{Binding Title, TargetNullValue={x:Static local:Loc.Untitled}}" Height="450" Width="800" MinHeight="450" MinWidth="800">
     <dxmvvm:Interaction.Behaviors>
         <dxmvvm:DispatcherService x:Name="MainDispatcherService"/>
         <dxmvvm:MessageBoxService x:Name="MainMessageBoxService"/>
@@ -51,7 +52,8 @@
         <StatusBar Grid.Row="2">
             <StatusBarItem>
                 <TextBlock>
-                    <Run Text="Documents Opened:"/>
+                    <Run Text="{x:Static local:Loc.Documents_Opened}"/>
+                    <Run Text=":"/>
                     <Run Text="{Binding Count, ElementName=Documents, Mode=OneWay}"/>
                 </TextBlock>
             </StatusBarItem>

@@ -25,18 +25,19 @@ namespace WpfAppSample
         private readonly CancellationTokenSource _cts = new();
         private readonly bool _createdNew;
         private readonly EventWaitHandle _ewh;
-        private readonly IAsyncLifetime _lifetime = new AsyncLifetime(continueOnCapturedContext: true);
+        private readonly AsyncLifetime _lifetime = new(continueOnCapturedContext: true);
 
         public App()
         {
             _ewh = new EventWaitHandle(false, EventResetMode.AutoReset, $"{GetType().FullName}", out _createdNew);
             _lifetime.AddDisposable(_ewh);
             _lifetime.Add(_cts.Cancel);
+            TaskScheduler.UnobservedTaskException += TaskScheduler_UnobservedTaskException;
         }
 
         #region Properties
 
-        public PerformanceMonitor PerformanceMonitor { get; } = new (Process.GetCurrentProcess(), CultureInfo.InvariantCulture)
+        public PerformanceMonitor PerformanceMonitor { get; } = new(Process.GetCurrentProcess(), CultureInfo.InvariantCulture)
         {
             ShowPeakMemoryUsage = true,
             ShowManagedMemory = true,
@@ -124,6 +125,8 @@ namespace WpfAppSample
 
             ConfigureLogging(environmentService);
 
+            environmentService.LoadLocalization(typeof(Loc), CultureInfo.CurrentUICulture.IetfLanguageTag);
+
             var logger = GetService<ILogger>();
             logger?.LogInformation("Application started.");
 
@@ -147,6 +150,12 @@ namespace WpfAppSample
 
             _ = Task.Run(() => WaitForNotifyAsync(_cts.Token), _cts.Token);
             _ = Task.Run(() => PerformanceMonitor.RunAsync(_cts.Token), _cts.Token);
+        }
+
+        private void TaskScheduler_UnobservedTaskException(object? sender, UnobservedTaskExceptionEventArgs e)
+        {
+            var logger = GetService<ILogger>();
+            logger?.LogError(e.Exception, "TaskScheduler Unobserved Task Exception: {Exception}.", e.Exception.Message);
         }
 
         #endregion

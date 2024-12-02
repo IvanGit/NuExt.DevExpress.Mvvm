@@ -92,7 +92,7 @@ namespace WpfAppSample.ViewModels
                     var vm = new MoviesViewModel();
                     var doc = x.CreateDocument(nameof(MoviesView), vm, null, this);
                     doc.DestroyOnClose = true;
-                    doc.Title = "Movies";
+                    doc.Title = Loc.Movies;
                     try
                     {
                         await vm.InitializeAsync(cancellationToken);
@@ -116,7 +116,7 @@ namespace WpfAppSample.ViewModels
             return IsUsable && DocumentManagerService != null;
         }
 
-        public async Task OpenMovieAsync(MovieModel movie)
+        private async Task OpenMovieAsync(MovieModel movie)
         {
             var cancellationToken = GetCurrentCancellationToken();
 
@@ -146,11 +146,11 @@ namespace WpfAppSample.ViewModels
 
         private bool CanCloseMovie(MovieModel movie) => CanOpenMovie(movie);
 
-        public async Task CloseMovieAsync(MovieModel movie)
+        private async Task CloseMovieAsync(MovieModel movie)
         {
             var doc = DocumentManagerService!.FindDocumentById(new MovieDocument(movie));
             if (doc == null) return;
-            await doc.CloseAsync();
+            await doc.CloseAsync().ConfigureAwait(false);
         }
 
         #endregion
