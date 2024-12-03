@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfAppSample", "samples\WpfAppSample\WpfAppSample.csproj", "{E70EA083-E421-4F42-92FC-FAB90A191FBA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MovieWpfApp", "samples\WpfAppSample\MovieWpfApp.csproj", "{E70EA083-E421-4F42-92FC-FAB90A191FBA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NuExt.DevExpress.Mvvm", "src\NuExt.DevExpress.Mvvm.csproj", "{DBA17D31-E66B-42CB-A68C-1241633DD307}"
 EndProject

@@ -1,10 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using MovieWpfApp.Converters;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text;
 using System.Text.Json.Serialization;
-using WpfAppSample.Converters;
 
-namespace WpfAppSample.Models
+namespace MovieWpfApp.Models
 {
     public sealed class MovieModel : MovieModelBase, IDataErrorInfo
     {

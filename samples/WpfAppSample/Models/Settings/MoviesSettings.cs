@@ -1,6 +1,6 @@
 ﻿using DevExpress.Mvvm;
 
-namespace WpfAppSample.Models
+namespace MovieWpfApp.Models
 {
     public sealed class MoviesSettings : BindableSettings
     {

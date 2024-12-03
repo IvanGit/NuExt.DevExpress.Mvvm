@@ -1,10 +1,10 @@
 ﻿using DevExpress.Mvvm;
+using MovieWpfApp.Models;
+using MovieWpfApp.Views;
 using System.Diagnostics;
 using System.Windows.Input;
-using WpfAppSample.Models;
-using WpfAppSample.Views;
 
-namespace WpfAppSample.ViewModels
+namespace MovieWpfApp.ViewModels
 {
     partial class MainWindowViewModel
     {

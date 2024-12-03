@@ -1,7 +1,7 @@
-﻿using System.Diagnostics;
-using WpfAppSample.Models;
+﻿using MovieWpfApp.Models;
+using System.Diagnostics;
 
-namespace WpfAppSample.ViewModels
+namespace MovieWpfApp.ViewModels
 {
     internal partial class MainWindowViewModel
     {

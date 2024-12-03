@@ -2,6 +2,9 @@
 using DevExpress.Mvvm.UI;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using MovieWpfApp.Interfaces.Services;
+using MovieWpfApp.Services;
+using MovieWpfApp.ViewModels;
 using NLog;
 using NLog.Extensions.Logging;
 using System.Diagnostics;
@@ -9,18 +12,15 @@ using System.Globalization;
 using System.IO;
 using System.Windows;
 using System.Windows.Threading;
-using WpfAppSample.Interfaces.Services;
-using WpfAppSample.Services;
-using WpfAppSample.ViewModels;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
-namespace WpfAppSample
+namespace MovieWpfApp
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application, IDispatcher
+    public partial class App : ISupportServices, IDispatcher
     {
         private readonly CancellationTokenSource _cts = new();
         private readonly bool _createdNew;
@@ -162,7 +162,7 @@ namespace WpfAppSample
 
         #region Methods
 
-        private void ConfigureLogging(IEnvironmentService environmentService)
+        private void ConfigureLogging(EnvironmentService environmentService)
         {
             Debug.Assert(IOUtils.NormalizedPathEquals(environmentService.BaseDirectory, Directory.GetCurrentDirectory()));
             var configFile = Path.Combine(environmentService.ConfigDirectory, "nlog.config.json");

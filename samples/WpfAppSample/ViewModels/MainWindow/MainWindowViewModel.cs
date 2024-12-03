@@ -1,15 +1,13 @@
 ﻿using DevExpress.Mvvm;
+using MovieWpfApp.Interfaces.Services;
+using MovieWpfApp.Interfaces.ViewModels;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
-using WpfAppSample.Interfaces.Services;
-using WpfAppSample.Interfaces.ViewModels;
-using WpfAppSample.Models;
-using WpfAppSample.Views;
 
-namespace WpfAppSample.ViewModels
+namespace MovieWpfApp.ViewModels
 {
     internal sealed partial class MainWindowViewModel : WindowViewModel, IMainWindowViewModel
     {

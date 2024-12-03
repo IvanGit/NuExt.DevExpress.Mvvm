@@ -1,14 +1,14 @@
 ﻿using DevExpress.Mvvm;
+using MovieWpfApp.Interfaces.Services;
+using MovieWpfApp.Interfaces.ViewModels;
+using MovieWpfApp.Models;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Data;
-using WpfAppSample.Interfaces.Services;
-using WpfAppSample.Interfaces.ViewModels;
-using WpfAppSample.Models;
 
-namespace WpfAppSample.ViewModels
+namespace MovieWpfApp.ViewModels
 {
     internal sealed partial class MoviesViewModel : DocumentContentViewModelBase
     {

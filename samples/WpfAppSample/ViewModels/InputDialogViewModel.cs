@@ -1,6 +1,6 @@
 ﻿using DevExpress.Mvvm;
 
-namespace WpfAppSample.ViewModels
+namespace MovieWpfApp.ViewModels
 {
     internal class InputDialogViewModel : ControlViewModel
     {

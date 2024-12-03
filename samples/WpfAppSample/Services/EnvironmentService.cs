@@ -1,12 +1,12 @@
 ﻿using DevExpress.Mvvm;
 using Minimal.Mvvm;
+using MovieWpfApp.Interfaces.Services;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Text.Json;
-using WpfAppSample.Interfaces.Services;
 
-namespace WpfAppSample.Services
+namespace MovieWpfApp.Services
 {
     internal sealed class EnvironmentService(string baseDirectory, params string[] args)
         : EnvironmentServiceBase(baseDirectory, Path.Combine(baseDirectory, "AppData"), args), IEnvironmentService;

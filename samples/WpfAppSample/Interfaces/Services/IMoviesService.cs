@@ -1,6 +1,6 @@
-﻿using WpfAppSample.Models;
+﻿using MovieWpfApp.Models;
 
-namespace WpfAppSample.Interfaces.Services
+namespace MovieWpfApp.Interfaces.Services
 {
     public interface IMoviesService
     {

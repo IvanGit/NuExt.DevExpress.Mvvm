@@ -1,10 +1,10 @@
 ﻿using DevExpress.Mvvm;
+using MovieWpfApp.Models;
+using MovieWpfApp.Views;
 using System.Windows;
 using System.Windows.Input;
-using WpfAppSample.Models;
-using WpfAppSample.Views;
 
-namespace WpfAppSample.ViewModels
+namespace MovieWpfApp.ViewModels
 {
     internal partial class MoviesViewModel
     {
@@ -99,8 +99,9 @@ namespace WpfAppSample.ViewModels
             switch (clone)
             {
                 case MovieGroupModel group:
-                    await using (var viewModel = new InputDialogViewModel() { InputMessage = Loc.Enter_new_group_name })
+                    await using (var viewModel = new InputDialogViewModel())
                     {
+                        viewModel.InputMessage = Loc.Enter_new_group_name;
                         await viewModel.SetParameter(group.Name).SetParentViewModel(this).InitializeAsync(cancellationToken);
                         var dlgResult = await DialogService!.ShowDialogAsync(MessageButton.OKCancel,
                             Loc.Edit_Group, nameof(InputDialogView), viewModel, cancellationToken);
@@ -116,7 +117,6 @@ namespace WpfAppSample.ViewModels
                     await using (var viewModel = new EditMovieViewModel())
                     {
                         await viewModel.SetParameter(movie).SetParentViewModel(this).InitializeAsync(cancellationToken);
-
                         var dlgResult = await DialogService!.ShowDialogAsync(MessageButton.OKCancel, Loc.Edit_Movie,
                             nameof(EditMovieView), viewModel, cancellationToken);
                         if (dlgResult != MessageResult.OK) 
@@ -148,17 +148,16 @@ namespace WpfAppSample.ViewModels
             var cancellationToken = GetCurrentCancellationToken();
 
             string? groupName = null;
-            await using (var viewModel = new InputDialogViewModel() { InputMessage = Loc.Enter_new_group_name })
+            await using var viewModel = new InputDialogViewModel();
+            viewModel.InputMessage = Loc.Enter_new_group_name;
+            await viewModel.SetParameter(groupName).SetParentViewModel(this).InitializeAsync(cancellationToken);
+            var dlgResult = await DialogService!.ShowDialogAsync(MessageButton.OKCancel, Loc.New_Group,
+                nameof(InputDialogView), viewModel, cancellationToken);
+            if (dlgResult != MessageResult.OK)
             {
-                await viewModel.SetParameter(groupName).SetParentViewModel(this).InitializeAsync(cancellationToken);
-                var dlgResult = await DialogService!.ShowDialogAsync(MessageButton.OKCancel, Loc.New_Group,
-                    nameof(InputDialogView), viewModel, cancellationToken);
-                if (dlgResult != MessageResult.OK)
-                {
-                    return;
-                }
-                groupName = viewModel.InputText;
+                return;
             }
+            groupName = viewModel.InputText;
 
             if (string.IsNullOrWhiteSpace(groupName))
             {
@@ -198,7 +197,6 @@ namespace WpfAppSample.ViewModels
             };
 
             await viewModel.SetParameter(movie).SetParentViewModel(this).InitializeAsync(cancellationToken);
-
             var dlgResult = await DialogService!.ShowDialogAsync(MessageButton.OKCancel, Loc.New_Movie, nameof(EditMovieView), viewModel, cancellationToken);
             if (dlgResult != MessageResult.OK)
             {
@@ -226,16 +224,16 @@ namespace WpfAppSample.ViewModels
             await ParentViewModel!.OpenMovieCommand!.ExecuteAsync(item as MovieModel);
         }
 
-        private bool CanMove(MovieModelBase? draggedObject)
+        private bool CanMove(MovieModelBase draggedObject)
         {
-            return IsUsable && draggedObject?.CanDrag == true;
+            return IsUsable && draggedObject.CanDrag == true;
         }
 
-        private async Task MoveAsync(MovieModelBase? draggedObject)
+        private async Task MoveAsync(MovieModelBase draggedObject)
         {
             var cancellationToken = GetCurrentCancellationToken();
 
-            var path = draggedObject!.GetPath();
+            var path = draggedObject.GetPath();
             await ReloadMoviesAsync(cancellationToken);
             var item = Movies!.FindByPath(path);
             //item?.Expand();
@@ -265,7 +263,7 @@ namespace WpfAppSample.ViewModels
             EditCommand = RegisterAsyncCommand(EditAsync, CanEdit);
             NewGroupCommand = RegisterAsyncCommand(NewGroupAsync, CanNewGroup);
             NewMovieCommand = RegisterAsyncCommand(NewMovieAsync, CanNewMovie);
-            MoveCommand = RegisterAsyncCommand<MovieModelBase?>(MoveAsync, CanMove);
+            MoveCommand = RegisterAsyncCommand<MovieModelBase>(MoveAsync, CanMove);
             OpenMovieCommand = RegisterAsyncCommand<MovieModelBase?>(OpenMovieAsync, CanOpenMovie);
             ExpandOrCollapseCommand = RegisterCommand<bool>(ExpandOrCollapse, _ => IsUsable);
         }
