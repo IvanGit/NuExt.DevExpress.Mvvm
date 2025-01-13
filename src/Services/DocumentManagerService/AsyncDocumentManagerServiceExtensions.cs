@@ -13,7 +13,7 @@
         /// <returns>The created asynchronous document.</returns>
         public static IAsyncDocument CreateDocument(this IAsyncDocumentManagerService service, object viewModel)
         {
-#if NET6_0_OR_GREATER
+#if NET
             ArgumentNullException.ThrowIfNull(service);
 #else
             Throw.IfNull(service);
@@ -30,7 +30,7 @@
         /// <returns>The created asynchronous document.</returns>
         public static IAsyncDocument CreateDocument(this IAsyncDocumentManagerService service, string documentType, object viewModel)
         {
-#if NET6_0_OR_GREATER
+#if NET
             ArgumentNullException.ThrowIfNull(service);
 #else
             Throw.IfNull(service);
@@ -48,7 +48,7 @@
         /// <returns>The created asynchronous document.</returns>
         public static IAsyncDocument CreateDocument(this IAsyncDocumentManagerService service, string documentType, object parameter, object parentViewModel)
         {
-#if NET6_0_OR_GREATER
+#if NET
             ArgumentNullException.ThrowIfNull(service);
 #else
             Throw.IfNull(service);
@@ -64,7 +64,7 @@
         /// <returns>The found asynchronous document, or <c>null</c> if no document is found.</returns>
         public static IAsyncDocument? FindDocumentById(this IAsyncDocumentManagerService service, object id)
         {
-#if NET6_0_OR_GREATER
+#if NET
             ArgumentNullException.ThrowIfNull(service);
 #else
             Throw.IfNull(service);
@@ -81,7 +81,7 @@
         /// <returns>The found or newly created asynchronous document.</returns>
         public static async ValueTask<IAsyncDocument> FindDocumentByIdOrCreateAsync(this IAsyncDocumentManagerService service, object id, Func<IAsyncDocumentManagerService, ValueTask<IAsyncDocument>> createDocumentCallback)
         {
-#if NET6_0_OR_GREATER
+#if NET
             ArgumentNullException.ThrowIfNull(service);
             ArgumentNullException.ThrowIfNull(createDocumentCallback);
 #else

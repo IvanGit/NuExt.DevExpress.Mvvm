@@ -104,7 +104,7 @@ namespace DevExpress.Mvvm.UI
         public bool LoadSettings(IBindable settings, string name = "Settings", JsonSerializerOptions? options = null)
         {
             Debug.Assert(settings != null, "settings is null");
-#if NET6_0_OR_GREATER
+#if NET
             ArgumentNullException.ThrowIfNull(settings);
 #else
             Throw.IfNull(settings);
@@ -146,7 +146,7 @@ namespace DevExpress.Mvvm.UI
         public bool SaveSettings(IBindable settings, string name = "Settings", JsonSerializerOptions? options = null)
         {
             Debug.Assert(settings != null, "settings is null");
-#if NET6_0_OR_GREATER
+#if NET
             ArgumentNullException.ThrowIfNull(settings);
 #else
             Throw.IfNull(settings);

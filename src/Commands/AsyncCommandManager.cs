@@ -100,7 +100,7 @@ namespace DevExpress.Mvvm
         /// <exception cref="ArgumentNullException">Thrown if the action is null.</exception>
         public IAsyncCommand Register(IAsyncCommand command)
         {
-#if NET6_0_OR_GREATER
+#if NET
             ArgumentNullException.ThrowIfNull(command);
 #else
             Throw.IfNull(command);
@@ -120,7 +120,7 @@ namespace DevExpress.Mvvm
         /// <exception cref="ArgumentNullException">Thrown if the action is null.</exception>
         public void Unregister(IAsyncCommand command)
         {
-#if NET6_0_OR_GREATER
+#if NET
             ArgumentNullException.ThrowIfNull(command);
 #else
             Throw.IfNull(command);
@@ -146,7 +146,7 @@ namespace DevExpress.Mvvm
         /// <exception cref="ArgumentNullException">Thrown if the action is null.</exception>
         private void RemoveAndUnsubscribeCommand(IAsyncCommand command)
         {
-#if NET6_0_OR_GREATER
+#if NET
             ArgumentNullException.ThrowIfNull(command);
 #else
             Throw.IfNull(command);

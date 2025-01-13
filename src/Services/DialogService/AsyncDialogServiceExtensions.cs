@@ -18,7 +18,7 @@ namespace DevExpress.Mvvm
         /// <returns>A task that represents the asynchronous operation. The task result contains a UI command representing the user's action, or null if the dialog was dismissed.</returns>
         public static ValueTask<UICommand?> ShowDialogAsync(this IAsyncDialogService service, IEnumerable<UICommand> dialogCommands, string title, object viewModel, CancellationToken cancellationToken = default)
         {
-#if NET6_0_OR_GREATER
+#if NET
             ArgumentNullException.ThrowIfNull(service);
 #else
             Throw.IfNull(service);
@@ -37,7 +37,7 @@ namespace DevExpress.Mvvm
         /// <returns>A task that represents the asynchronous operation. The task result contains the message result based on the user's action.</returns>
         public static async ValueTask<MessageResult> ShowDialogAsync(this IAsyncDialogService service, MessageButton dialogButtons, string title, object viewModel, CancellationToken cancellationToken = default)
         {
-#if NET6_0_OR_GREATER
+#if NET
             ArgumentNullException.ThrowIfNull(service);
 #else
             Throw.IfNull(service);
@@ -58,7 +58,7 @@ namespace DevExpress.Mvvm
         /// <returns>A task that represents the asynchronous operation. The task result contains a UI command representing the user's action, or null if the dialog was dismissed.</returns>
         public static ValueTask<UICommand?> ShowDialogAsync(this IAsyncDialogService service, IEnumerable<UICommand> dialogCommands, string title, string documentType, object viewModel, CancellationToken cancellationToken = default)
         {
-#if NET6_0_OR_GREATER
+#if NET
             ArgumentNullException.ThrowIfNull(service);
 #else
             Throw.IfNull(service);
@@ -78,7 +78,7 @@ namespace DevExpress.Mvvm
         /// <returns>A task that represents the asynchronous operation. The task result contains the message result based on the user's action.</returns>
         public static async ValueTask<MessageResult> ShowDialogAsync(this IAsyncDialogService service, MessageButton dialogButtons, string title, string documentType, object viewModel, CancellationToken cancellationToken = default)
         {
-#if NET6_0_OR_GREATER
+#if NET
             ArgumentNullException.ThrowIfNull(service);
 #else
             Throw.IfNull(service);
@@ -100,7 +100,7 @@ namespace DevExpress.Mvvm
         /// <returns>A task that represents the asynchronous operation. The task result contains a UI command representing the user's action, or null if the dialog was dismissed.</returns>
         public static ValueTask<UICommand?> ShowDialogAsync(this IAsyncDialogService service, IEnumerable<UICommand> dialogCommands, string title, string documentType, object parameter, object parentViewModel, CancellationToken cancellationToken = default)
         {
-#if NET6_0_OR_GREATER
+#if NET
             ArgumentNullException.ThrowIfNull(service);
 #else
             Throw.IfNull(service);
@@ -121,7 +121,7 @@ namespace DevExpress.Mvvm
         /// <returns>A task that represents the asynchronous operation. The task result contains the message result based on the user's action.</returns>
         public static async ValueTask<MessageResult> ShowDialogAsync(this IAsyncDialogService service, MessageButton dialogButtons, string title, string documentType, object parameter, object parentViewModel, CancellationToken cancellationToken = default)
         {
-#if NET6_0_OR_GREATER
+#if NET
             ArgumentNullException.ThrowIfNull(service);
 #else
             Throw.IfNull(service);
