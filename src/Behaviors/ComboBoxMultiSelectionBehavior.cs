@@ -74,7 +74,7 @@ namespace DevExpress.Mvvm.UI
             Debug.Assert(sender is ComboBox);
             if (sender is ComboBox comboBox)
             {
-                Dispatcher.BeginInvoke(() => SetSelectedItems(comboBox, SelectedItems));
+                Dispatcher.InvokeAsync(() => SetSelectedItems(comboBox, SelectedItems));
             }
         }
 

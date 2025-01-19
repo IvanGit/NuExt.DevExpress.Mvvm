@@ -11,8 +11,7 @@
                 Command="{Binding Command}"
                 Content="{Binding Caption}"
                 IsCancel="{Binding IsCancel}"
-                IsDefault="{Binding IsDefault}"
-                Style="{DynamicResource MahApps.Styles.Button.Dialogs.Accent}" />
+                IsDefault="{Binding IsDefault}" />
     </DataTemplate>
 
     <DataTemplate x:Key="Templates.InputDialog.Button" d:DataType="{x:Type dxmvvm:UICommand}">
@@ -20,8 +19,7 @@
                 Command="{Binding Command}"
                 Content="{Binding Caption}"
                 IsCancel="{Binding IsCancel}"
-                IsDefault="{Binding IsDefault}"
-                Style="{DynamicResource MahApps.Styles.Button.Dialogs}" />
+                IsDefault="{Binding IsDefault}" />
     </DataTemplate>
 
     <ui:DialogButtonTemplateSelector x:Key="InputDialogButtonTemplateSelector"

@@ -1,4 +1,4 @@
-﻿#define DEBUG_EVENTS
+﻿#define DEBUG_EVENTS_
 using System.Collections.Concurrent;
 using System.ComponentModel;
 using System.Diagnostics;

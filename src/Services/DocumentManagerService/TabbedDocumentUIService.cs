@@ -47,13 +47,13 @@ namespace DevExpress.Mvvm.UI
                     () => ClearTitleBinding(HeaderedContentControl.HeaderProperty, Tab));
 
                 var dpd = DependencyPropertyDescriptor.FromProperty(HeaderedContentControl.HeaderProperty, typeof(HeaderedContentControl));
-                Debug.Assert(dpd != null);
                 if (dpd != null)
                 {
                     _lifetime.AddBracket(
                         () => dpd.AddValueChanged(Tab, OnTabHeaderChanged),
                         () => dpd.RemoveValueChanged(Tab, OnTabHeaderChanged));
                 }
+                Debug.Assert(dpd != null);
             }
 
             #region Properties

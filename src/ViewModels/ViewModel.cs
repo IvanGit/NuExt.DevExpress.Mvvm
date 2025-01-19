@@ -150,7 +150,7 @@ namespace DevExpress.Mvvm
             if (IsDisposed)
             {
                 var message = $"{GetType().FullName} ({DisplayName ?? "Unnamed"}) ({GetHashCode()}) has been disposed.";
-                Debug.WriteLine(message);
+                Trace.WriteLine(message);
                 Debug.Fail(message);
                 throw new ObjectDisposedException(GetType().FullName, message);
             }
@@ -254,7 +254,7 @@ namespace DevExpress.Mvvm
             if (IsInitialized)
             {
                 string message = $"{GetType().FullName} ({DisplayName ?? "Unnamed"}) ({GetHashCode()}) has already been initialized and cannot be reinitialized.";
-                Debug.WriteLine(message);
+                Trace.WriteLine(message);
                 Debug.Fail(message);
                 throw new InvalidOperationException(message);
             }
@@ -268,7 +268,7 @@ namespace DevExpress.Mvvm
         private void ThrowFinalizerException()
         {
             string message = $"{GetType().FullName} ({DisplayName ?? "Unnamed"}) ({GetHashCode()}) was finalized without proper disposal.";
-            Debug.WriteLine(message);
+            Trace.WriteLine(message);
             Debug.Fail(message);
             throw new InvalidOperationException(message);
         }
@@ -284,7 +284,7 @@ namespace DevExpress.Mvvm
             if ((this as ISupportParentViewModel).ParentViewModel is null)
             {
                 var message = $"{GetType().FullName} ({DisplayName ?? "Unnamed"}) ({GetHashCode()}): {nameof(ISupportParentViewModel.ParentViewModel)} is null";
-                Debug.WriteLine(message);
+                Trace.WriteLine(message);
                 Debug.Fail(message);
                 throw new InvalidOperationException(message);
             }

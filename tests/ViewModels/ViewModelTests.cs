@@ -24,7 +24,7 @@ namespace NuExt.DevExpress.Mvvm.Tests.ViewModels
             void OnPropertyChanged(object? sender, PropertyChangedEventArgs e)
             {
                 Assert.That(sender is IViewModel, Is.True);
-                Debug.WriteLine($"Property Changed: {e.PropertyName}");
+                Trace.WriteLine($"Property Changed: {e.PropertyName}");
                 propertyList.Add(e.PropertyName!);
             };
             ValueTask OnDisposing(object? sender, EventArgs e, CancellationToken cancellationToken = default)
