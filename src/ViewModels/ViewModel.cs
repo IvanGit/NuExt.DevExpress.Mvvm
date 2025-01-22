@@ -290,6 +290,27 @@ namespace DevExpress.Mvvm
             }
         }
 
+        private void ThrowVerifyAccess()
+        {
+            var message = $"{GetType().FullName} ({DisplayName ?? "Unnamed"}) ({GetHashCode()}): method was called from an invalid thread.";
+            Trace.WriteLine(message);
+            Debug.Fail(message);
+            throw new InvalidOperationException(message);
+        }
+
+        /// <summary>
+        /// Checks if the current thread is the same as the thread on which this instance was created and throws an <see cref="InvalidOperationException"/> if not.
+        /// </summary>
+        /// <exception cref="InvalidOperationException">Thrown when the current thread is not the same as the thread on which this instance was created.</exception>
+        [EditorBrowsable(EditorBrowsableState.Never)]
+        void IDispatcherObject.VerifyAccess()
+        {
+            if (!CheckAccess())
+            {
+                ThrowVerifyAccess();
+            }
+        }
+
         #endregion
     }
 }

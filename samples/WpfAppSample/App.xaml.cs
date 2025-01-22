@@ -20,7 +20,7 @@ namespace MovieWpfApp
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : ISupportServices, IDispatcher
+    public partial class App : ISupportServices, IDispatcherObject
     {
         private readonly CancellationTokenSource _cts = new();
         private readonly bool _createdNew;
