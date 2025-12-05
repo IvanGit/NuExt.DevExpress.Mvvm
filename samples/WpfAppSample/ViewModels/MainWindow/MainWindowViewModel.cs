@@ -117,7 +117,7 @@ namespace MovieWpfApp.ViewModels
             {
                 sb.Append($"{doc.Title} - ");
             }
-            sb.Append($"{AssemblyInfo.Product} v{AssemblyInfo.Version?.ToString(3)}");
+            sb.Append($"{AssemblyInfo.Current.Product} v{AssemblyInfo.Current.Version?.ToString(3)}");
             Title = sb.ToString();
         }
 

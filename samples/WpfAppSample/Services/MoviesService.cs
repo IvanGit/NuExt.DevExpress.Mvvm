@@ -105,7 +105,7 @@ namespace MovieWpfApp.Services
                 {
                     LookupItems(lookup, group.Items, group, processedItems);
                 }
-                lostItems = lostItems.Except(processedItems).ToList();
+                lostItems = [.. lostItems.Except(processedItems)];
                 var lostGroup = new MovieGroupModel() { IsRoot = true, IsLost = true, Name = Loc.Lost };
                 lostItems.ForEach(lostGroup.Items.Add);
                 list.Add(lostGroup);

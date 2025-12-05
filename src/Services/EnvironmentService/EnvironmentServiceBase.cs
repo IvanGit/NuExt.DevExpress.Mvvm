@@ -27,7 +27,7 @@ namespace DevExpress.Mvvm
 
             IOUtils.CheckDirectory(AppDataDirectory, true);
 
-            WorkingDirectory = Path.Combine(AppDataDirectory, AssemblyInfo.Version!.ToString(2));
+            WorkingDirectory = Path.Combine(AppDataDirectory, AssemblyInfo.Current.Version!.ToString(2));
             IOUtils.CheckDirectory(WorkingDirectory, true);
 
             LogsDirectory = Path.Combine(WorkingDirectory, "Logs");
