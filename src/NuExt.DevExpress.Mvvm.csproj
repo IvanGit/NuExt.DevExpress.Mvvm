@@ -8,7 +8,7 @@
     <UseWPF>true</UseWPF>
     <ImplicitUsings>enable</ImplicitUsings>
     <TreatWarningsAsErrors Condition="'$(Configuration)' == 'Release'">true</TreatWarningsAsErrors>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild Condition="'$(Configuration)' == 'Release'">true</GeneratePackageOnBuild>
     <PackageTags>nuext;devexpress;dxmvvm;dx;mvvm;wpf;xaml;ui;async</PackageTags>
     <Description>Provides a suite of extensions and utilities for the DevExpress MVVM Framework with a focus on asynchronous operations.
 
@@ -26,7 +26,7 @@ DevExpress.Mvvm.UI.OpenWindowsService
 DevExpress.Mvvm.UI.SettingsService
 DevExpress.Mvvm.UI.TabbedDocumentUIService
 DevExpress.Mvvm.UI.WindowPlacementService</Description>
-    <Version>0.4.0</Version>
+    <Version>0.4.1</Version>
     <RootNamespace>DevExpress.Mvvm</RootNamespace>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <NoWarn>$(NoWarn);1591;NETSDK1233</NoWarn>
@@ -40,7 +40,7 @@ DevExpress.Mvvm.UI.WindowPlacementService</Description>
   </ItemGroup>
 
   <ItemGroup Condition="'$(UseNuExtPackages)' == 'true'">
-    <PackageReference Include="NuExt.System.Windows" Version="0.4.0" />
+    <PackageReference Include="NuExt.System.Windows" Version="0.4.1" />
   </ItemGroup>
 
   <ItemGroup Condition="'$(UseNuExtPackages)' == 'false'">

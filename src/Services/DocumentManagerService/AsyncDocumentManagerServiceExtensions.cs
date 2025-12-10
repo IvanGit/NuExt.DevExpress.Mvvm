@@ -13,11 +13,8 @@
         /// <returns>The created asynchronous document.</returns>
         public static IAsyncDocument CreateDocument(this IAsyncDocumentManagerService service, object viewModel)
         {
-#if NET
             ArgumentNullException.ThrowIfNull(service);
-#else
-            Throw.IfNull(service);
-#endif
+
             return service.CreateDocument(null, viewModel, null, null);
         }
 
@@ -30,11 +27,8 @@
         /// <returns>The created asynchronous document.</returns>
         public static IAsyncDocument CreateDocument(this IAsyncDocumentManagerService service, string documentType, object viewModel)
         {
-#if NET
             ArgumentNullException.ThrowIfNull(service);
-#else
-            Throw.IfNull(service);
-#endif
+
             return service.CreateDocument(documentType, viewModel, null, null);
         }
 
@@ -48,11 +42,8 @@
         /// <returns>The created asynchronous document.</returns>
         public static IAsyncDocument CreateDocument(this IAsyncDocumentManagerService service, string documentType, object parameter, object parentViewModel)
         {
-#if NET
             ArgumentNullException.ThrowIfNull(service);
-#else
-            Throw.IfNull(service);
-#endif
+
             return service.CreateDocument(documentType, null, parameter, parentViewModel);
         }
 
@@ -64,11 +55,8 @@
         /// <returns>The found asynchronous document, or <c>null</c> if no document is found.</returns>
         public static IAsyncDocument? FindDocumentById(this IAsyncDocumentManagerService service, object id)
         {
-#if NET
             ArgumentNullException.ThrowIfNull(service);
-#else
-            Throw.IfNull(service);
-#endif
+
             return service.Documents.FirstOrDefault(x => object.Equals(x.Id, id));
         }
 
@@ -81,13 +69,9 @@
         /// <returns>The found or newly created asynchronous document.</returns>
         public static async ValueTask<IAsyncDocument> FindDocumentByIdOrCreateAsync(this IAsyncDocumentManagerService service, object id, Func<IAsyncDocumentManagerService, ValueTask<IAsyncDocument>> createDocumentCallback)
         {
-#if NET
             ArgumentNullException.ThrowIfNull(service);
             ArgumentNullException.ThrowIfNull(createDocumentCallback);
-#else
-            Throw.IfNull(service);
-            Throw.IfNull(createDocumentCallback);
-#endif
+
             IAsyncDocument? document = service.FindDocumentById(id);
             if (document == null)
             {

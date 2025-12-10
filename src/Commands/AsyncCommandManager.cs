@@ -100,11 +100,8 @@ namespace DevExpress.Mvvm
         /// <exception cref="ArgumentNullException">Thrown if the action is null.</exception>
         public IAsyncCommand Register(IAsyncCommand command)
         {
-#if NET
             ArgumentNullException.ThrowIfNull(command);
-#else
-            Throw.IfNull(command);
-#endif
+
             if (!_commands.TryAdd(command, InitialState)) return command;
             if (command is INotifyPropertyChanged p)
             {
@@ -120,11 +117,8 @@ namespace DevExpress.Mvvm
         /// <exception cref="ArgumentNullException">Thrown if the action is null.</exception>
         public void Unregister(IAsyncCommand command)
         {
-#if NET
             ArgumentNullException.ThrowIfNull(command);
-#else
-            Throw.IfNull(command);
-#endif
+
             if (_commands.TryGetValue(command, out var value) && value == InitialState)
             {
                 if (command.IsExecuting == false)
@@ -146,11 +140,8 @@ namespace DevExpress.Mvvm
         /// <exception cref="ArgumentNullException">Thrown if the action is null.</exception>
         private void RemoveAndUnsubscribeCommand(IAsyncCommand command)
         {
-#if NET
             ArgumentNullException.ThrowIfNull(command);
-#else
-            Throw.IfNull(command);
-#endif
+
             if (_commands.TryRemove(command, out _) && command is INotifyPropertyChanged p)
             {
                 p.PropertyChanged -= AsyncCommand_PropertyChanged;

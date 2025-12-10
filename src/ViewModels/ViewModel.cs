@@ -152,7 +152,7 @@ namespace DevExpress.Mvvm
                 var message = $"{GetType().FullName} ({DisplayName ?? "Unnamed"}) ({GetHashCode()}) has been disposed.";
                 Trace.WriteLine(message);
                 Debug.Fail(message);
-                throw new ObjectDisposedException(GetType().FullName, message);
+                Throw.ObjectDisposedException(this, message);
             }
         }
 
@@ -217,16 +217,8 @@ namespace DevExpress.Mvvm
             {
                 return;
             }
-            try
-            {
-                Debug.Assert(ViewModelConfig != null, $"{nameof(ViewModelConfig)} is null");
-                await OnInitializeAsync(cancellationToken).ConfigureAwait(false);
-            }
-            catch (Exception ex)
-            {
-                Debug.Assert(ex is OperationCanceledException, ex.Message);
-                throw;
-            }
+            Debug.Assert(ViewModelConfig != null, $"{nameof(ViewModelConfig)} is null");
+            await OnInitializeAsync(cancellationToken).ConfigureAwait(false);
             IsInitialized = true;
         }
 
@@ -256,7 +248,7 @@ namespace DevExpress.Mvvm
                 string message = $"{GetType().FullName} ({DisplayName ?? "Unnamed"}) ({GetHashCode()}) has already been initialized and cannot be reinitialized.";
                 Trace.WriteLine(message);
                 Debug.Fail(message);
-                throw new InvalidOperationException(message);
+                Throw.InvalidOperationException(message);
             }
         }
 
@@ -270,7 +262,7 @@ namespace DevExpress.Mvvm
             string message = $"{GetType().FullName} ({DisplayName ?? "Unnamed"}) ({GetHashCode()}) was finalized without proper disposal.";
             Trace.WriteLine(message);
             Debug.Fail(message);
-            throw new InvalidOperationException(message);
+            Throw.InvalidOperationException(message);
         }
 
         /// <summary>
@@ -286,7 +278,7 @@ namespace DevExpress.Mvvm
                 var message = $"{GetType().FullName} ({DisplayName ?? "Unnamed"}) ({GetHashCode()}): {nameof(ISupportParentViewModel.ParentViewModel)} is null";
                 Trace.WriteLine(message);
                 Debug.Fail(message);
-                throw new InvalidOperationException(message);
+                Throw.InvalidOperationException(message);
             }
         }
 
@@ -295,7 +287,7 @@ namespace DevExpress.Mvvm
             var message = $"{GetType().FullName} ({DisplayName ?? "Unnamed"}) ({GetHashCode()}): method was called from an invalid thread.";
             Trace.WriteLine(message);
             Debug.Fail(message);
-            throw new InvalidOperationException(message);
+            Throw.InvalidOperationException(message);
         }
 
         /// <summary>

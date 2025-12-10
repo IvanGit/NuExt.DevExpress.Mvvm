@@ -15,11 +15,8 @@ namespace DevExpress.Mvvm
         /// <exception cref="ArgumentNullException">Thrown if the <paramref name="command"/> is null.</exception>
         public static void Cancel(this IAsyncCommand command)
         {
-#if NET
             ArgumentNullException.ThrowIfNull(command);
-#else
-            Throw.IfNull(command);
-#endif
+
             try
             {
                 command.CancelCommand.Execute(null);
@@ -40,11 +37,8 @@ namespace DevExpress.Mvvm
         /// <exception cref="OperationCanceledException">Thrown if the wait is canceled.</exception>
         public static async Task WaitAsync(this IAsyncCommand command, CancellationToken cancellationToken = default)
         {
-#if NET
             ArgumentNullException.ThrowIfNull(command);
-#else
-            Throw.IfNull(command);
-#endif
+
             if (command.IsExecuting == false || command is not INotifyPropertyChanged npc)
             {
                 return;

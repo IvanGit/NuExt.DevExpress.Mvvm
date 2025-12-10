@@ -107,11 +107,7 @@ namespace DevExpress.Mvvm
         protected IAsyncCommand? GetAsyncCommand([CallerMemberName] string? callerName = null)
         {
             Debug.Assert(!string.IsNullOrEmpty(callerName), $"{nameof(callerName)} is null or empty");
-#if NET8_0_OR_GREATER
             ArgumentException.ThrowIfNullOrEmpty(callerName);
-#else
-            Throw.IfNullOrEmpty(callerName);
-#endif
             Debug.Assert(_asyncCommands.ContainsKey(callerName), $"Can't find command {callerName}");
             if (_asyncCommands.TryGetValue(callerName, out var command))
             {
@@ -143,11 +139,7 @@ namespace DevExpress.Mvvm
         private void InternalRegisterAsyncCommand(string methodName, IAsyncCommand command)
         {
             Debug.Assert(!string.IsNullOrEmpty(methodName));
-#if NET8_0_OR_GREATER
             ArgumentException.ThrowIfNullOrEmpty(methodName);
-#else
-            Throw.IfNullOrEmpty(methodName);
-#endif
             Lifetime.AddBracket(() => PropertyChanged += OnPropertyChanged, () => PropertyChanged -= OnPropertyChanged);
 
             var result = _asyncCommands.TryAdd(methodName, command);
@@ -198,11 +190,7 @@ namespace DevExpress.Mvvm
         public IAsyncCommand RegisterAsyncCommand(Func<Task> executeMethod, Func<bool>? canExecuteMethod = null,
             bool? useCommandManager = null)
         {
-#if NET6_0_OR_GREATER
             ArgumentNullException.ThrowIfNull(executeMethod);
-#else
-            Throw.IfNull(executeMethod);
-#endif
             CheckDisposed();
             string methodName = executeMethod.Method.Name;
             var command = CommandManager.Register(new AsyncCommand(async () =>
@@ -233,11 +221,7 @@ namespace DevExpress.Mvvm
         public IAsyncCommand RegisterAsyncCommand<T>(Func<T, Task> executeMethod,
             Func<T, bool>? canExecuteMethod = null, bool? useCommandManager = null)
         {
-#if NET6_0_OR_GREATER
             ArgumentNullException.ThrowIfNull(executeMethod);
-#else
-            Throw.IfNull(executeMethod);
-#endif
             CheckDisposed();
             string methodName = executeMethod.Method.Name;
             var command = CommandManager.Register(new AsyncCommand<T>(async x =>
@@ -266,11 +250,7 @@ namespace DevExpress.Mvvm
         /// <exception cref="ObjectDisposedException">Thrown if the ViewModel has been disposed.</exception>
         public ICommand RegisterCommand(Action executeMethod, Func<bool>? canExecuteMethod = null, bool? useCommandManager = null)
         {
-#if NET6_0_OR_GREATER
             ArgumentNullException.ThrowIfNull(executeMethod);
-#else
-            Throw.IfNull(executeMethod);
-#endif
             CheckDisposed();
             string methodName = executeMethod.Method.Name;
             return new DelegateCommand(() =>
@@ -298,11 +278,7 @@ namespace DevExpress.Mvvm
         /// <exception cref="ObjectDisposedException">Thrown if the ViewModel has been disposed.</exception>
         public ICommand RegisterCommand<T>(Action<T> executeMethod, Func<T, bool>? canExecuteMethod = null, bool? useCommandManager = null)
         {
-#if NET6_0_OR_GREATER
             ArgumentNullException.ThrowIfNull(executeMethod);
-#else
-            Throw.IfNull(executeMethod);
-#endif
             CheckDisposed();
             string methodName = executeMethod.Method.Name;
             return new DelegateCommand<T>(x =>

@@ -212,7 +212,7 @@ namespace DevExpress.Mvvm.UI
 
         #endregion
 
-        private readonly ObservableCollection<IAsyncDocument> _documents = new();
+        private readonly ObservableCollection<IAsyncDocument> _documents = [];
         private bool _isInitialized;
         private bool _isActiveDocumentChanging;
         private IDisposable? _subscription;
@@ -376,11 +376,8 @@ namespace DevExpress.Mvvm.UI
 
         public IAsyncDocument CreateDocument(string? documentType, object? viewModel, object? parameter, object? parentViewModel)
         {
-#if NET
             ArgumentNullException.ThrowIfNull(ActualTarget);
-#else
-            Throw.IfNull(ActualTarget);
-#endif
+
             object? view;
             if (documentType == null && ViewTemplate == null && ViewTemplateSelector == null)
             {
@@ -483,7 +480,7 @@ namespace DevExpress.Mvvm.UI
             base.OnDetaching();
         }
 
-        private IDisposable? SubscribeTabControl(TabControl? tabControl)
+        private Lifetime? SubscribeTabControl(TabControl? tabControl)
         {
             if (tabControl == null)
             {
@@ -491,7 +488,7 @@ namespace DevExpress.Mvvm.UI
             }
             if (tabControl.ItemsSource != null)
             {
-                throw new InvalidOperationException("Can't use not null ItemsSource in this service.");
+                Throw.InvalidOperationException("Can't use not null ItemsSource in this service.");
             }
             var lifetime = new Lifetime();
             if (tabControl.Items is INotifyCollectionChanged collection)

@@ -18,11 +18,8 @@ namespace DevExpress.Mvvm
         /// <returns>A task that represents the asynchronous operation. The task result contains a UI command representing the user's action, or null if the dialog was dismissed.</returns>
         public static ValueTask<UICommand?> ShowDialogAsync(this IAsyncDialogService service, IEnumerable<UICommand> dialogCommands, string title, object viewModel, CancellationToken cancellationToken = default)
         {
-#if NET
             ArgumentNullException.ThrowIfNull(service);
-#else
-            Throw.IfNull(service);
-#endif
+
             return service.ShowDialogAsync(dialogCommands, title, null, viewModel, null, null, cancellationToken);
         }
 
@@ -37,11 +34,8 @@ namespace DevExpress.Mvvm
         /// <returns>A task that represents the asynchronous operation. The task result contains the message result based on the user's action.</returns>
         public static async ValueTask<MessageResult> ShowDialogAsync(this IAsyncDialogService service, MessageButton dialogButtons, string title, object viewModel, CancellationToken cancellationToken = default)
         {
-#if NET
             ArgumentNullException.ThrowIfNull(service);
-#else
-            Throw.IfNull(service);
-#endif
+
             var res = await service.ShowDialogAsync(UICommand.GenerateFromMessageButton(dialogButtons, GetLocalizer(service)), title, null, viewModel, null, null, cancellationToken);
             return GetMessageResult(res);
         }
@@ -58,11 +52,8 @@ namespace DevExpress.Mvvm
         /// <returns>A task that represents the asynchronous operation. The task result contains a UI command representing the user's action, or null if the dialog was dismissed.</returns>
         public static ValueTask<UICommand?> ShowDialogAsync(this IAsyncDialogService service, IEnumerable<UICommand> dialogCommands, string title, string documentType, object viewModel, CancellationToken cancellationToken = default)
         {
-#if NET
             ArgumentNullException.ThrowIfNull(service);
-#else
-            Throw.IfNull(service);
-#endif
+
             return service.ShowDialogAsync(dialogCommands, title, documentType, viewModel, null, null, cancellationToken);
         }
 
@@ -78,11 +69,8 @@ namespace DevExpress.Mvvm
         /// <returns>A task that represents the asynchronous operation. The task result contains the message result based on the user's action.</returns>
         public static async ValueTask<MessageResult> ShowDialogAsync(this IAsyncDialogService service, MessageButton dialogButtons, string title, string documentType, object viewModel, CancellationToken cancellationToken = default)
         {
-#if NET
             ArgumentNullException.ThrowIfNull(service);
-#else
-            Throw.IfNull(service);
-#endif
+
             var res = await service.ShowDialogAsync(UICommand.GenerateFromMessageButton(dialogButtons, GetLocalizer(service)), title, documentType, viewModel, null, null, cancellationToken);
             return GetMessageResult(res);
         }
@@ -100,11 +88,8 @@ namespace DevExpress.Mvvm
         /// <returns>A task that represents the asynchronous operation. The task result contains a UI command representing the user's action, or null if the dialog was dismissed.</returns>
         public static ValueTask<UICommand?> ShowDialogAsync(this IAsyncDialogService service, IEnumerable<UICommand> dialogCommands, string title, string documentType, object parameter, object parentViewModel, CancellationToken cancellationToken = default)
         {
-#if NET
             ArgumentNullException.ThrowIfNull(service);
-#else
-            Throw.IfNull(service);
-#endif
+
             return service.ShowDialogAsync(dialogCommands, title, documentType, null, parameter, parentViewModel, cancellationToken);
         }
 
@@ -121,11 +106,8 @@ namespace DevExpress.Mvvm
         /// <returns>A task that represents the asynchronous operation. The task result contains the message result based on the user's action.</returns>
         public static async ValueTask<MessageResult> ShowDialogAsync(this IAsyncDialogService service, MessageButton dialogButtons, string title, string documentType, object parameter, object parentViewModel, CancellationToken cancellationToken = default)
         {
-#if NET
             ArgumentNullException.ThrowIfNull(service);
-#else
-            Throw.IfNull(service);
-#endif
+
             var res = await service.ShowDialogAsync(UICommand.GenerateFromMessageButton(dialogButtons, GetLocalizer(service)), title, documentType, null, parameter, parentViewModel, cancellationToken);
             return GetMessageResult(res);
         }

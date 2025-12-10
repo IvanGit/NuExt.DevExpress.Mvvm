@@ -167,11 +167,7 @@ namespace DevExpress.Mvvm.UI
 
         private string GetFileName()
         {
-#if NET8_0_OR_GREATER
             ArgumentException.ThrowIfNullOrEmpty(FileName);
-#else
-            Throw.IfNullOrEmpty(FileName);
-#endif
             if (Path.HasExtension(FileName)) return IOUtils.ClearFileName(FileName)!;
             return IOUtils.ClearFileName(FileName) + ".json";
         }

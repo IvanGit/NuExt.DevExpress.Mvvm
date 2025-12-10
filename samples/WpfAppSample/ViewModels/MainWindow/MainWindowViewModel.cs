@@ -111,7 +111,7 @@ namespace MovieWpfApp.ViewModels
 
         private void UpdateTitle()
         {
-            var sb = new ValueStringBuilder();
+            var sb = new ValueStringBuilder(stackalloc char[128]);
             var doc = ActiveDocument;
             if (doc != null)
             {

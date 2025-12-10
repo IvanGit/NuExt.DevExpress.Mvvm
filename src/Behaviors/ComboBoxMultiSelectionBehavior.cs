@@ -257,7 +257,7 @@ namespace DevExpress.Mvvm.UI
         /// <param name="items">The list of selected items.</param>
         private static void SetSelectedItemsAsString(ComboBox comboBox, IList? items)
         {
-            var sb = new ValueStringBuilder();
+            var sb = new ValueStringBuilder(stackalloc char[128]);
             if (items is { Count: > 0 })
             {
                 var s = string.Empty;
