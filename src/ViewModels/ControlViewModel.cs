@@ -54,7 +54,6 @@ namespace DevExpress.Mvvm
         /// <param name="callerName">The name of the calling method (automatically provided).</param>
         protected virtual void OnError(Exception ex, [CallerMemberName] string? callerName = null)
         {
-            Debug.Assert(CheckAccess());
             Trace.WriteLine($"An error has occurred in {callerName}:{Environment.NewLine}{ex.Message}");
         }
 

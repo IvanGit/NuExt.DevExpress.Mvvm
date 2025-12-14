@@ -30,14 +30,14 @@ namespace NuExt.DevExpress.Mvvm.Tests.ViewModels
             ValueTask OnDisposing(object? sender, EventArgs e, CancellationToken cancellationToken = default)
             {
                 var vm = sender as IViewModel;
-                Assert.Multiple(() =>
+                using (Assert.EnterMultipleScope())
                 {
                     Assert.That(vm, Is.Not.Null);
                     Assert.That(propertyList, Has.Count.EqualTo(3));
                     Assert.That(propertyList.SequenceEqual(new[] {
                             nameof(ViewModel.IsInitialized), nameof(ViewModel.IsUsable), nameof(ViewModel.IsDisposing)
                         }), Is.True);
-                });
+                }
                 vm!.Disposing -= OnDisposing;
                 return default;
             };
@@ -52,13 +52,13 @@ namespace NuExt.DevExpress.Mvvm.Tests.ViewModels
                 () => viewModel.Disposing += OnDisposing,
                 () => viewModel.Disposing -= OnDisposing);
 
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(viewModel.IsInitialized, Is.EqualTo(false));
                 Assert.That(propertyList, Has.Count.EqualTo(0));
-            });
+            }
             await viewModel.InitializeAsync();
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(viewModel.IsInitialized, Is.EqualTo(true));
                 Assert.That(viewModel.IsDisposed, Is.EqualTo(false));
@@ -67,9 +67,9 @@ namespace NuExt.DevExpress.Mvvm.Tests.ViewModels
                         nameof(viewModel.IsInitialized), nameof(viewModel.IsUsable)
                     }),
                     Is.True);
-            });
+            }
             await viewModel.DisposeAsync();
-            Assert.Multiple(() =>
+            using (Assert.EnterMultipleScope())
             {
                 Assert.That(viewModel.IsDisposed, Is.EqualTo(true));
                 Assert.That(propertyList, Has.Count.EqualTo(4));
@@ -77,7 +77,7 @@ namespace NuExt.DevExpress.Mvvm.Tests.ViewModels
                         nameof(viewModel.IsInitialized), nameof(viewModel.IsUsable), nameof(viewModel.IsDisposing),
                         nameof(viewModel.IsDisposed)
                     }), Is.True);
-            });
+            }
         }
     }
 

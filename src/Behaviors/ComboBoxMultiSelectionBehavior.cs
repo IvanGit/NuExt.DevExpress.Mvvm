@@ -74,7 +74,7 @@ namespace DevExpress.Mvvm.UI
             Debug.Assert(sender is ComboBox);
             if (sender is ComboBox comboBox)
             {
-                Dispatcher.InvokeAsync(() => SetSelectedItems(comboBox, SelectedItems));
+                comboBox.Dispatcher.InvokeAsync(() => SetSelectedItems(comboBox, SelectedItems));
             }
         }
 
@@ -134,7 +134,7 @@ namespace DevExpress.Mvvm.UI
             {
                 return;
             }
-            var list = comboBoxItems as IList<ComboBoxItem> ?? comboBoxItems.ToList();
+            var list = comboBoxItems as IList<ComboBoxItem> ?? [.. comboBoxItems];
 
             var selectedItems = new List<object>();
             foreach (var comboBoxItem in list)
@@ -179,7 +179,7 @@ namespace DevExpress.Mvvm.UI
             {
                 return;
             }
-            var list = comboBoxItems as IList<ComboBoxItem> ?? comboBoxItems.ToList();
+            var list = comboBoxItems as IList<ComboBoxItem> ?? [.. comboBoxItems];
 
             var checkBoxItems = new CheckBox?[list.Count];
             for (int i = 0; i < list.Count; i++)

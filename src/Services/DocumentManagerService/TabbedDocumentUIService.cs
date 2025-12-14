@@ -27,7 +27,8 @@ namespace DevExpress.Mvvm.UI
             private readonly Lifetime _lifetime = new();
             private bool _isClosing;
 
-            public TabbedDocument(TabbedDocumentUIService owner, TabItem tab, string? documentType)
+            public TabbedDocument(TabbedDocumentUIService owner, TabItem tab, string? documentType) 
+                : base(continueOnCapturedContext: true)
             {
                 _ = owner ?? throw new ArgumentNullException(nameof(owner));
                 Tab = tab ?? throw new ArgumentNullException(nameof(tab));
@@ -163,8 +164,10 @@ namespace DevExpress.Mvvm.UI
                 Tab.Do(x => x!.Content = null);
             }
 
-            protected override async ValueTask OnDisposeAsync()
+            protected override async ValueTask DisposeAsyncCore()
             {
+                Debug.Assert(ContinueOnCapturedContext);
+
                 if (State == DocumentState.Destroyed)
                 {
                     return;

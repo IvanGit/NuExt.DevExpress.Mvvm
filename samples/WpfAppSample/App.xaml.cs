@@ -47,8 +47,6 @@ namespace MovieWpfApp
 
         public IServiceContainer ServiceContainer => DevExpress.Mvvm.ServiceContainer.Default;
 
-        public Thread Thread => Dispatcher.Thread;
-
         #endregion
 
         #region Services
@@ -217,13 +215,13 @@ namespace MovieWpfApp
             {
                 while (await awaiter.WaitOneAsync(cancellationToken))//_ewh is set
                 {
-                    await Current.Dispatcher.InvokeAsync(() =>
+                    await this.InvokeAsync(() =>
                     {
                         if (cancellationToken.IsCancellationRequested)
                         {
                             return;
                         }
-                        Current.MainWindow?.BringToFront();
+                        MainWindow?.BringToFront();
                     });
                 }
             }

@@ -7,7 +7,7 @@ namespace DevExpress.Mvvm
     /// for property change notification, parent view model support, service provision, parameter handling, 
     /// and asynchronous disposal and dispatching.
     /// </summary>
-    public interface IViewModel: INotifyPropertyChanged, ISupportParentViewModel, ISupportServices, ISupportParameter, IAsyncDisposable, IDispatcherObject
+    public interface IViewModel: INotifyPropertyChanged, ISupportParentViewModel, ISupportServices, ISupportParameter, IAsyncDisposable, ISynchronizeInvoker
     {
         /// <summary>
         /// Gets or sets the display name of the ViewModel, primarily used for debugging purposes.

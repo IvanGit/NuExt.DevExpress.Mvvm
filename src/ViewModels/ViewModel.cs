@@ -1,5 +1,4 @@
-﻿using System.ComponentModel;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace DevExpress.Mvvm
@@ -24,7 +23,6 @@ namespace DevExpress.Mvvm
         /// </summary>
         protected ViewModel()
         {
-            Thread = Thread.CurrentThread;
         }
 
         /// <summary>
@@ -107,12 +105,6 @@ namespace DevExpress.Mvvm
         public bool IsUsable => IsInitialized && IsDisposed == false && IsDisposing == false;
 
         /// <summary>
-        /// Gets the thread on which the current instance was created.
-        /// </summary>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        public Thread Thread { get; }
-
-        /// <summary>
         /// Gets the configuration settings for the ViewModel.
         /// </summary>
         protected IViewModelConfiguration ViewModelConfig => GetService<IViewModelConfiguration>() ?? ViewModelConfiguration.Default;
@@ -129,17 +121,6 @@ namespace DevExpress.Mvvm
         #endregion
 
         #region Methods
-
-        /// <summary>
-        /// Checks if the current thread is the same as the thread on which this instance was created.
-        /// </summary>
-        /// <returns>True if the current thread is the same as the creation thread; otherwise, false.</returns>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool CheckAccess()
-        {
-            return Thread == Thread.CurrentThread;
-        }
 
         /// <summary>
         /// Checks if the object has been disposed and throws an <see cref="ObjectDisposedException"/> if it has.
@@ -279,27 +260,6 @@ namespace DevExpress.Mvvm
                 Trace.WriteLine(message);
                 Debug.Fail(message);
                 Throw.InvalidOperationException(message);
-            }
-        }
-
-        private void ThrowVerifyAccess()
-        {
-            var message = $"{GetType().FullName} ({DisplayName ?? "Unnamed"}) ({GetHashCode()}): method was called from an invalid thread.";
-            Trace.WriteLine(message);
-            Debug.Fail(message);
-            Throw.InvalidOperationException(message);
-        }
-
-        /// <summary>
-        /// Checks if the current thread is the same as the thread on which this instance was created and throws an <see cref="InvalidOperationException"/> if not.
-        /// </summary>
-        /// <exception cref="InvalidOperationException">Thrown when the current thread is not the same as the thread on which this instance was created.</exception>
-        [EditorBrowsable(EditorBrowsableState.Never)]
-        void IDispatcherObject.VerifyAccess()
-        {
-            if (!CheckAccess())
-            {
-                ThrowVerifyAccess();
             }
         }
 

@@ -11,6 +11,7 @@ namespace DevExpress.Mvvm.UI
     {
         private readonly List<IWindowViewModel> _viewModels = [];
         private readonly AsyncLock _lock = new();
+        private bool _disposing;
 
         /// <summary>
         /// Gets open window view models.
@@ -27,6 +28,7 @@ namespace DevExpress.Mvvm.UI
             {
                 return;
             }
+            _disposing = true;
             await _lock.EnterAsync();
             try
             {
@@ -53,6 +55,7 @@ namespace DevExpress.Mvvm.UI
             finally
             {
                 _lock.Exit();
+                _disposing = false;
             }
             _lock.Dispose();
         }
@@ -80,7 +83,7 @@ namespace DevExpress.Mvvm.UI
         /// <param name="viewModel">The window view model to unregister.</param>
         public void Unregister(IWindowViewModel viewModel)
         {
-            if (_lock.IsEntered)//is disposing
+            if (_disposing)
             {
                 return;
             }
