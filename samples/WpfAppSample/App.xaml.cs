@@ -215,7 +215,7 @@ namespace MovieWpfApp
             {
                 while (await awaiter.WaitOneAsync(cancellationToken))//_ewh is set
                 {
-                    await this.InvokeAsync(() =>
+                    await Dispatcher.InvokeAsync(() =>
                     {
                         if (cancellationToken.IsCancellationRequested)
                         {

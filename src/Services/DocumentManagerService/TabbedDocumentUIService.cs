@@ -112,9 +112,9 @@ namespace DevExpress.Mvvm.UI
                 {
                     return;
                 }
+                _isClosing = true;
                 try
                 {
-                    _isClosing = true;
                     await CloseCoreAsync(force, DestroyOnClose);
                 }
                 finally
