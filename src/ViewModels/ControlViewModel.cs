@@ -42,6 +42,7 @@ namespace DevExpress.Mvvm
         {
             ValidateDisposingState();
 
+            Debug.Assert(Lifetime.IsTerminated == false);
             await Lifetime.DisposeAsync();
 
             ValidateFinalState();
@@ -65,7 +66,8 @@ namespace DevExpress.Mvvm
             Debug.Assert(IsInitialized == false);
             base.OnInitializeInRuntime();
 
-            Lifetime.AddBracket(CreateCommands, NullifyCommands);//last operation after CommandManager.WaitAll
+            CreateCommands();
+            Lifetime.Add(NullifyCommands);//last operation after CommandManager.WaitAll
             Lifetime.AddAsync(() => CommandManager.WaitAll());
         }
 

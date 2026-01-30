@@ -168,8 +168,8 @@ namespace DevExpress.Mvvm.UI
         private string GetFileName()
         {
             ArgumentException.ThrowIfNullOrEmpty(FileName);
-            if (Path.HasExtension(FileName)) return IOUtils.ClearFileName(FileName)!;
-            return IOUtils.ClearFileName(FileName) + ".json";
+            if (Path.HasExtension(FileName)) return IOUtils.SanitizeFileName(FileName)!;
+            return IOUtils.SanitizeFileName(FileName) + ".json";
         }
 
         private void InternalSavePlacement(Window? window)

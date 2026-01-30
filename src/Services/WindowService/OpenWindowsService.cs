@@ -83,7 +83,7 @@ namespace DevExpress.Mvvm.UI
         /// <param name="viewModel">The window view model to unregister.</param>
         public void Unregister(IWindowViewModel viewModel)
         {
-            if (_disposing)
+            if (_disposing || _lock.IsDisposed)
             {
                 return;
             }

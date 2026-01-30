@@ -5,6 +5,7 @@
         <ResourceDictionary Source="pack://application:,,,/NuExt.DevExpress.Mvvm;component/Styles/InputDialogBase.xaml" />
         <ResourceDictionary Source="pack://application:,,,/NuExt.DevExpress.Mvvm;component/Styles/InputDialog.xaml" />
         <ResourceDictionary Source="pack://application:,,,/NuExt.DevExpress.Mvvm;component/Styles/MenuItem.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/NuExt.DevExpress.Mvvm;component/Presentation.Wpf/Styles/Styles.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

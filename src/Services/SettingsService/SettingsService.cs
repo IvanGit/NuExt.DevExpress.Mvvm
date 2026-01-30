@@ -82,8 +82,8 @@ namespace DevExpress.Mvvm.UI
             }
             sb.Append(name);
             string fileName = sb.ToString();
-            if (Path.HasExtension(name)) return IOUtils.ClearFileName(fileName)!;
-            return IOUtils.ClearFileName(fileName) + ".json";
+            if (Path.HasExtension(name)) return IOUtils.SanitizeFileName(fileName)!;
+            return IOUtils.SanitizeFileName(fileName) + ".json";
         }
 
         /// <summary>
