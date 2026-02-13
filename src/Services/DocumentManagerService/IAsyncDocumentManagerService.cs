@@ -5,7 +5,7 @@ namespace DevExpress.Mvvm
     /// <summary>
     /// Defines an interface for managing asynchronous documents.
     /// </summary>
-    public interface IAsyncDocumentManagerService//: IDocumentManagerService
+    public interface IAsyncDocumentManagerService: IAsyncDisposable
     {
         /// <summary>
         /// Creates a new asynchronous document.

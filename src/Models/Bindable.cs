@@ -1,7 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Reflection;
-using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 
 namespace DevExpress.Mvvm
@@ -12,7 +11,6 @@ namespace DevExpress.Mvvm
     /// It leverages reflection to manage properties and provides methods to get property types, initialize the object,
     /// and set property values dynamically.
     /// </summary>
-    [DataContract]
     public abstract class Bindable : BindableBase, IBindable
     {
         private static readonly ConcurrentDictionary<Type, IDictionary<string, PropertyInfo>> s_typeProperties = new();

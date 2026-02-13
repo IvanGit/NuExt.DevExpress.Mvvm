@@ -83,7 +83,7 @@ namespace System.Windows
         /// </summary>
         /// <param name="window">The instance of the <see cref="Window"/>.</param>
         /// <param name="windowPlacement">An instance of <see cref="WindowPlacement"/> specifying the new values for the window's placement.</param>
-        /// <returns><c>true</c> if the operation is successful, otherwise <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the operation is successful, otherwise <see langword="false"/>.</returns>
         public static bool SetPlacement(this Window window, WindowPlacement? windowPlacement)
         {
             ArgumentNullException.ThrowIfNull(window);
@@ -106,7 +106,7 @@ namespace System.Windows
         /// </summary>
         /// <param name="window">The instance of the <see cref="Window"/>.</param>
         /// <param name="json">A JSON string representing the desired placement of the window.</param>
-        /// <returns><c>true</c> if the operation is successful, otherwise <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the operation is successful, otherwise <see langword="false"/>.</returns>
         public static bool SetPlacement(this Window window, string? json)
         {
             if (string.IsNullOrWhiteSpace(json))

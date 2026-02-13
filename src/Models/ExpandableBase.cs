@@ -19,7 +19,7 @@ namespace DevExpress.Mvvm
         }
 
         /// <summary>
-        /// Collapses the object by setting the <see cref="IsExpanded"/> property to <c>false</c>.
+        /// Collapses the object by setting the <see cref="IsExpanded"/> property to <see langword="false"/>.
         /// </summary>
         public virtual void Collapse()
         {
@@ -27,7 +27,7 @@ namespace DevExpress.Mvvm
         }
 
         /// <summary>
-        /// Expands the object by setting the <see cref="IsExpanded"/> property to <c>true</c>.
+        /// Expands the object by setting the <see cref="IsExpanded"/> property to <see langword="true"/>.
         /// </summary>
         public virtual void Expand()
         {

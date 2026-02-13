@@ -1,5 +1,6 @@
 ﻿using DevExpress.Mvvm.UI.Interactivity;
 using System.Collections;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Text;
 using System.Windows;

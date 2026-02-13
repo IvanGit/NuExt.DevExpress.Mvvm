@@ -27,8 +27,7 @@ namespace DevExpress.Mvvm.UI
             private readonly Lifetime _lifetime = new();
             private bool _isClosing;
 
-            public TabbedDocument(TabbedDocumentUIService owner, TabItem tab, string? documentType) 
-                : base(continueOnCapturedContext: true)
+            public TabbedDocument(TabbedDocumentUIService owner, TabItem tab, string? documentType)
             {
                 _ = owner ?? throw new ArgumentNullException(nameof(owner));
                 Tab = tab ?? throw new ArgumentNullException(nameof(tab));
@@ -291,9 +290,9 @@ namespace DevExpress.Mvvm.UI
         {
             if (!_isActiveDocumentChanging)
             {
+                _isActiveDocumentChanging = true;
                 try
                 {
-                    _isActiveDocumentChanging = true;
                     newValue?.Show();
                 }
                 finally
@@ -355,9 +354,9 @@ namespace DevExpress.Mvvm.UI
             TabControl tabControl = (TabControl)sender;
             if (ActualTarget == tabControl)
             {
+                _isActiveDocumentChanging = true;
                 try
                 {
-                    _isActiveDocumentChanging = true;
                     ActiveDocument = (tabControl.SelectedItem is TabItem tabItem) ? (IAsyncDocument)GetDocument(tabItem) : null;
                 }
                 finally
@@ -397,7 +396,7 @@ namespace DevExpress.Mvvm.UI
                 Content = view,
             };
             ActualTarget?.Items.Add(tab);
-            var document = new TabbedDocument(this, tab, documentType);
+            var document = new TabbedDocument(this, tab, documentType) { ContinueOnCapturedContext = true };
             return document;
         }
 

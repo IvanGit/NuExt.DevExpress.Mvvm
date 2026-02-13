@@ -66,11 +66,11 @@ namespace DevExpress.Mvvm
         /// Determines whether all asynchronous commands in the collection satisfy a specified condition.
         /// </summary>
         /// <param name="predicate">A function to test each command for a condition.</param>
-        /// <returns><c>true</c> if every command in the collection matches the specified condition; otherwise, <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if every command in the collection matches the specified condition; otherwise, <see langword="false"/>.</returns>
         /// <exception cref="ArgumentNullException">Thrown if the <paramref name="predicate"/> is null.</exception>
         /// <remarks>
         /// This method iterates through each command in the internal collection and applies the specified predicate.
-        /// It returns <c>true</c> only if the predicate returns <c>true</c> for all commands; otherwise, it returns <c>false</c>.
+        /// It returns <see langword="true"/> only if the predicate returns <see langword="true"/> for all commands; otherwise, it returns <see langword="false"/>.
         /// </remarks>
         public bool All(Func<IAsyncCommand, bool> predicate)
         {

@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
 namespace DevExpress.Mvvm
@@ -20,7 +21,7 @@ namespace DevExpress.Mvvm
         /// <summary>
         /// Gets the contract for managing the asynchronous lifecycle of resources and actions.
         /// </summary>
-        protected IAsyncLifetime Lifetime { get; } = new AsyncLifetime(continueOnCapturedContext: true);
+        protected IAsyncLifetime Lifetime { get; } = new AsyncLifetime() { ContinueOnCapturedContext = true };
 
         #endregion
 

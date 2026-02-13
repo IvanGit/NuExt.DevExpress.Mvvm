@@ -54,8 +54,10 @@ namespace DevExpress.Mvvm
         /// <returns>A task representing the asynchronous close operation.</returns>
         public async ValueTask CloseForcedAsync(bool forceClose = true)
         {
-            Debug.Assert(CheckAccess());
-            Debug.Assert(IsDisposed == false);
+            if (IsDisposed || IsDisposing)
+            {
+                return;
+            }
 
             Debug.Assert(CancellationTokenSource.IsCancellationRequested || forceClose);
             if (forceClose)

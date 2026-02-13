@@ -86,7 +86,7 @@ namespace System.Windows
         /// </summary>
         /// <param name="windowHandle">The handle of the window.</param>
         /// <param name="windowPlacement">An instance of <see cref="WindowPlacement"/> specifying the new values for the window's placement.</param>
-        /// <returns><c>true</c> if the operation is successful, otherwise <c>false</c>.</returns>
+        /// <returns><see langword="true"/> if the operation is successful, otherwise <see langword="false"/>.</returns>
         public static bool SetPlacement(nint windowHandle, WindowPlacement? windowPlacement)
         {
             if (windowPlacement is null)

@@ -52,7 +52,7 @@
         /// </summary>
         /// <param name="service">The document manager service.</param>
         /// <param name="id">The ID of the document to find.</param>
-        /// <returns>The found asynchronous document, or <c>null</c> if no document is found.</returns>
+        /// <returns>The found asynchronous document, or <see langword="null"/> if no document is found.</returns>
         public static IAsyncDocument? FindDocumentById(this IAsyncDocumentManagerService service, object id)
         {
             ArgumentNullException.ThrowIfNull(service);

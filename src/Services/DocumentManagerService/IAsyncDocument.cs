@@ -8,7 +8,7 @@
         /// <summary>
         /// Closes the document asynchronously.
         /// </summary>
-        /// <param name="force">If set to <c>true</c>, forces the document to close. Default is <c>true</c>.</param>
+        /// <param name="force">If set to <see langword="true"/>, forces the document to close. Default is <see langword="true"/>.</param>
         /// <returns>A <see cref="ValueTask"/> representing the asynchronous operation.</returns>
         ValueTask CloseAsync(bool force = true);
     }

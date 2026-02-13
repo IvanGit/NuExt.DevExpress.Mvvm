@@ -27,7 +27,7 @@ namespace NuExt.DevExpress.Mvvm.Tests.ViewModels
                 Trace.WriteLine($"Property Changed: {e.PropertyName}");
                 propertyList.Add(e.PropertyName!);
             };
-            ValueTask OnDisposing(object? sender, EventArgs e, CancellationToken cancellationToken = default)
+            ValueTask OnDisposing(object? sender, EventArgs e, CancellationToken cancellationToken)
             {
                 var vm = sender as IViewModel;
                 using (Assert.EnterMultipleScope())
